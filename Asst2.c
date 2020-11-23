@@ -9,11 +9,6 @@
 #include <sys/types.h>
 #include <pthread.h>
 
-struct fileinfo {
-    char* name;
-    pthread_t* thread;
-};
-
 struct wordnode {
     char* name;
     int totalCount;
@@ -26,7 +21,7 @@ struct filenode{
     struct wordnode *headWord;
 };
 
-void *grow(struct fileinfo smt[100], int* capacityPTR) {
+void *grow(struct filenode smt[100], int* capacityPTR) {
     //update capacity
     printf("growing\n");
     return NULL;
@@ -34,7 +29,7 @@ void *grow(struct fileinfo smt[100], int* capacityPTR) {
 
 void* handleFile(void* kmt) {
     int numLoop = 0;
-    struct fileinfo * funcArgs = (struct fileinfo *) kmt;
+    struct filenode * funcArgs = (struct filenode *) kmt;
     char* name = funcArgs->name;
 
     printf("Handling: %s\n", name);
@@ -52,7 +47,7 @@ void* handleFile(void* kmt) {
 }
 
 void* handleDir(void* kmt) {
-	struct fileinfo * funcArgs = (struct fileinfo  *) kmt;
+	struct filenode * funcArgs = (struct filenode  *) kmt;
     int numLoop = 0;
     char* name = funcArgs->name;
 
@@ -76,7 +71,7 @@ int main(int argc, char** argv) {
         exit(EXIT_FAILURE);
     }
 
-    struct fileinfo arr[100];
+    struct filenode files[100];
     pthread_t allThreads[100];
 
     int capacity = 100;
@@ -88,18 +83,24 @@ int main(int argc, char** argv) {
     DIR *dirp = opendir(argv[1]);
     struct dirent *dp;
     while((dp = readdir(dirp))) {
-        if(tracker >= capacity) {
+        /*if(tracker >= capacity) {
             grow(arr, capacityPTR);
-        }
+        } */
     	if(dp->d_type == DT_REG) {
             printf("Got a file: %s\n", dp->d_name);
             
-            struct fileinfo temp;
+        /*    struct fileinfo temp;
             temp.name = dp->d_name;
             temp.thread  = allThreads+tracker;
-            arr[tracker] = temp;
+            arr[tracker] = temp; */
+
+            files[tracker].name = dp->d_name;
+            if(tracker != 0) {
+                int prev = tracker - 1 ;
+                files[prev].nextFile = &(files[tracker]);
+            } 
            
-            pthread_create(allThreads+tracker, NULL, handleFile, &temp);
+            pthread_create(allThreads+tracker, NULL, handleFile, &(files[tracker]));
 
             printf("thread number %ld added to arr\n", *(allThreads+tracker));
             tracker++;
@@ -107,12 +108,18 @@ int main(int argc, char** argv) {
         else if(dp->d_type == DT_DIR) {
             printf("Got a dir: %s\n", dp->d_name);
             
-            struct fileinfo temp;
+         /*   struct fileinfo temp;
             temp.name = dp->d_name;
             temp.thread  = allThreads+tracker;
-            arr[tracker] = temp;
+            arr[tracker] = temp; */
 
-             pthread_create(allThreads+tracker, NULL, handleDir, &temp);
+            files[tracker].name = dp->d_name;
+            if(tracker != 0) {
+                int prev = tracker - 1 ;
+                files[prev].nextFile = &(files[tracker]);
+            } 
+
+             pthread_create(allThreads+tracker, NULL, handleDir, &(files[tracker]));
 
             printf("thread number %ld added to arr\n", *(allThreads+tracker));
             tracker++;
