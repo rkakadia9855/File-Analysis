@@ -19,6 +19,8 @@ struct filenode{
     char* name;
     struct filenode *nextFile; 
     struct wordnode *headWord;
+    pthread_t thread;
+    int index;
 };
 
 void *grow(struct filenode smt[100], int* capacityPTR) {
@@ -96,10 +98,10 @@ int main(int argc, char** argv) {
             strcat(tempName, dp->d_name);
             files[tracker].name = (char *) malloc(sizeof(char *) * totalLen);
             strcpy(files[tracker].name, tempName);
-           
-            pthread_create(allThreads+tracker, NULL, handleFile, &(files[tracker]));
-
-            printf("thread number %ld added to arr\n", *(allThreads+tracker));
+            files[tracker].index = tracker;
+            pthread_create(&(files[tracker].thread), NULL, handleFile, &(files[tracker]));
+            allThreads[tracker] = files[tracker].thread;
+            printf("thread number %ld added to arr\n", files[tracker].thread);
             tracker++;
         }
         else if(dp->d_type == DT_DIR && strcmp(".", dp->d_name) != 0 && strcmp("..", dp->d_name) != 0) {
@@ -113,17 +115,17 @@ int main(int argc, char** argv) {
 		    strcat(tempName, dp->d_name);     
 	    	files[tracker].name = (char *) malloc(sizeof(char *) * totalLen);
             strcpy(files[tracker].name, tempName);
-
-            pthread_create(allThreads+tracker, NULL, handleDir, &(files[tracker]));
-
-            printf("thread number %ld added to arr\n", *(allThreads+tracker));
+            files[tracker].index = tracker;
+            pthread_create(&(files[tracker].thread), NULL, handleDir, &(files[tracker]));
+            allThreads[tracker] = files[tracker].thread;
+            printf("thread number %ld added to arr\n", files[tracker].thread);
             tracker++;
         }
     }
     int i = 0;
     for (i = 0; i < tracker; ++i) {
-        printf("Joining: %ld\n", allThreads[i]);
-        pthread_join(allThreads[i], NULL);
+        printf("Joining: %ld\n", (files[i].thread));
+        pthread_join((files[i].thread), NULL);
     }
     closedir(dirp);
     
