@@ -71,14 +71,14 @@ int main(int argc, char** argv) {
         exit(EXIT_FAILURE);
     }
 
-    struct filenode files[100];
-    pthread_t allThreads[100];
+    struct filenode files[100]; //stores the nodes of files/directories
+    pthread_t allThreads[100]; //stores the handles of all threads
 
     int capacity = 100;
     int* capacityPTR = &capacity;
 
 
-    int tracker = 0;
+    int tracker = 0; //tracks the total number of files/directories and threads at the same time
 
     DIR *dirp = opendir(argv[1]);
     struct dirent *dp;
@@ -86,45 +86,72 @@ int main(int argc, char** argv) {
         /*if(tracker >= capacity) {
             grow(arr, capacityPTR);
         } */
+        int prev = tracker - 1;
     	if(dp->d_type == DT_REG) {
             printf("Got a file: %s\n", dp->d_name);
             
-        /*    struct fileinfo temp;
-            temp.name = dp->d_name;
-            temp.thread  = allThreads+tracker;
-            arr[tracker] = temp; */
-
-            files[tracker].name = dp->d_name;
-            if(tracker != 0) {
-                int prev = tracker - 1 ;
+            if(tracker == 0) {
+		    printf("str\n");
+                int totalLen = 3;
+                totalLen += strlen(dp->d_name);
+                char* tempName = (char *) malloc(sizeof(char *) * totalLen);
+		printf("malloced\n");
+                tempName = "./";
+		printf("concating\n");
+                strcat(dp->d_name, tempName);
+		printf("copying\n");
+		files[tracker].name = (char *) malloc(sizeof(char *) * totalLen);
+                strcpy(files[tracker].name, tempName);
+		printf("copied\n");
+            }
+            else {
+                int totalLen = 2;
+                totalLen += strlen(files[prev].name);
+                totalLen += strlen(dp->d_name);
+                char* tempName = (char *) malloc(sizeof(char *) * totalLen);
+                tempName = files[prev].name;
+                strcat("/", tempName);
+                strcat(dp->d_name, tempName);
+		files[tracker].name = (char *) malloc(sizeof(char *) * totalLen);
+                strcpy(files[tracker].name, tempName);
                 files[prev].nextFile = &(files[tracker]);
-            } 
+            }
            
             pthread_create(allThreads+tracker, NULL, handleFile, &(files[tracker]));
 
             printf("thread number %ld added to arr\n", *(allThreads+tracker));
             tracker++;
         }
-        else if(dp->d_type == DT_DIR) {
+        else if(dp->d_type == DT_DIR && strcmp(".", dp->d_name) != 0 && strcmp("..", dp->d_name) != 0) {
             printf("Got a dir: %s\n", dp->d_name);
-            
-         /*   struct fileinfo temp;
-            temp.name = dp->d_name;
-            temp.thread  = allThreads+tracker;
-            arr[tracker] = temp; */
 
-            files[tracker].name = dp->d_name;
-            if(tracker != 0) {
-                int prev = tracker - 1 ;
+            if(tracker == 0) {
+                int totalLen = 3;
+                totalLen += strlen(dp->d_name);
+                char* tempName = (char *) malloc(sizeof(char *) * totalLen);
+                tempName = "./";
+                strcat(dp->d_name, tempName);
+		files[tracker].name = (char *) malloc(sizeof(char *) * totalLen);
+                strcpy(files[tracker].name, tempName);
+            }
+            else {
+                int totalLen = 2;
+                totalLen += strlen(files[prev].name);
+                totalLen += strlen(dp->d_name);
+                char* tempName = (char *) malloc(sizeof(char *) * totalLen);
+                tempName = files[prev].name;
+                strcat("/", tempName);
+                strcat(dp->d_name, tempName);
+		files[tracker].name = (char *) malloc(sizeof(char *) * totalLen);
+                strcpy(files[tracker].name, tempName);
                 files[prev].nextFile = &(files[tracker]);
-            } 
+            }
 
              pthread_create(allThreads+tracker, NULL, handleDir, &(files[tracker]));
 
             printf("thread number %ld added to arr\n", *(allThreads+tracker));
             tracker++;
         }
-    //    tracker++;
     }
     int i = 0;
     for (i = 0; i < tracker; ++i) {
