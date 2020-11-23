@@ -1,0 +1,25 @@
+Got a file: testcases.txt
+thread number 140106405529344 added to arr
+Got a file: readme.pdf
+thread number 140106397136640 added to arr
+Got a file: tokenizer.c
+Handling: ./readme.pdf
+thread number 140106388743936 added to arr
+Got a dir: smt
+Handling: ./testcases.txt
+thread number 140106380351232 added to arr
+Got a dir: dmt
+Handling: ./tokenizer.c
+thread number 140106371958528 added to arr
+Handling: ./smt
+Joining: 140106405529344
+Handling: ./dmt
+handled: ./dmt
+handled: ./smt
+handled: ./tokenizer.c
+handled: ./readme.pdf
+handled: ./testcases.txt
+Joining: 140106397136640
+Joining: 140106388743936
+Joining: 140106380351232
+Joining: 140106371958528
