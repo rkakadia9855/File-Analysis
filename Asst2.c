@@ -33,7 +33,6 @@ void* handleFile(void* kmt) {
     char* name = funcArgs->name;
 
     printf("Handling: %s\n", name);
-    //pthread_t thread = args->thread;
     if(strcmp(name, "testcases.txt"))
         numLoop = 100000000;
     else if(strcmp(name, "readme.pdf"))
@@ -52,7 +51,6 @@ void* handleDir(void* kmt) {
     char* name = funcArgs->name;
 
     printf("Handling: %s\n", name);
-    //pthread_t thread = args->thread;
     
     if(strcmp(name, "smt"))
         numLoop = 10000000;
@@ -90,32 +88,14 @@ int main(int argc, char** argv) {
     	if(dp->d_type == DT_REG) {
             printf("Got a file: %s\n", dp->d_name);
             
-            if(tracker == 0) {
-		    printf("str\n");
-                int totalLen = 3;
-                totalLen += strlen(dp->d_name);
-                char* tempName = (char *) malloc(sizeof(char *) * totalLen);
-		printf("malloced\n");
-                tempName = "./";
-		printf("concating\n");
-                strcat(dp->d_name, tempName);
-		printf("copying\n");
-		files[tracker].name = (char *) malloc(sizeof(char *) * totalLen);
-                strcpy(files[tracker].name, tempName);
-		printf("copied\n");
-            }
-            else {
-                int totalLen = 2;
-                totalLen += strlen(files[prev].name);
-                totalLen += strlen(dp->d_name);
-                char* tempName = (char *) malloc(sizeof(char *) * totalLen);
-                tempName = files[prev].name;
-                strcat("/", tempName);
-                strcat(dp->d_name, tempName);
-		files[tracker].name = (char *) malloc(sizeof(char *) * totalLen);
-                strcpy(files[tracker].name, tempName);
-                files[prev].nextFile = &(files[tracker]);
-            }
+            int totalLen = 3;
+            totalLen += strlen(dp->d_name);
+            char* tempName = (char *) malloc(sizeof(char *) * totalLen);
+            tempName[0] = '.';
+            tempName[1] = '/';
+            strcat(tempName, dp->d_name);
+            files[tracker].name = (char *) malloc(sizeof(char *) * totalLen);
+            strcpy(files[tracker].name, tempName);
            
             pthread_create(allThreads+tracker, NULL, handleFile, &(files[tracker]));
 
@@ -124,30 +104,17 @@ int main(int argc, char** argv) {
         }
         else if(dp->d_type == DT_DIR && strcmp(".", dp->d_name) != 0 && strcmp("..", dp->d_name) != 0) {
             printf("Got a dir: %s\n", dp->d_name);
+            
+            int totalLen = 3;
+            totalLen += strlen(dp->d_name);
+            char* tempName = (char *) malloc(sizeof(char *) * totalLen);
+            tempName[0] = '.';
+		    tempName[1] = '/';
+		    strcat(tempName, dp->d_name);     
+	    	files[tracker].name = (char *) malloc(sizeof(char *) * totalLen);
+            strcpy(files[tracker].name, tempName);
 
-            if(tracker == 0) {
-                int totalLen = 3;
-                totalLen += strlen(dp->d_name);
-                char* tempName = (char *) malloc(sizeof(char *) * totalLen);
-                tempName = "./";
-                strcat(dp->d_name, tempName);
-		files[tracker].name = (char *) malloc(sizeof(char *) * totalLen);
-                strcpy(files[tracker].name, tempName);
-            }
-            else {
-                int totalLen = 2;
-                totalLen += strlen(files[prev].name);
-                totalLen += strlen(dp->d_name);
-                char* tempName = (char *) malloc(sizeof(char *) * totalLen);
-                tempName = files[prev].name;
-                strcat("/", tempName);
-                strcat(dp->d_name, tempName);
-		files[tracker].name = (char *) malloc(sizeof(char *) * totalLen);
-                strcpy(files[tracker].name, tempName);
-                files[prev].nextFile = &(files[tracker]);
-            }
-
-             pthread_create(allThreads+tracker, NULL, handleDir, &(files[tracker]));
+            pthread_create(allThreads+tracker, NULL, handleDir, &(files[tracker]));
 
             printf("thread number %ld added to arr\n", *(allThreads+tracker));
             tracker++;
