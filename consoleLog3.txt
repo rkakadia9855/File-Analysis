@@ -1,0 +1,40 @@
+Got a file: testcases.txt
+thread number 140713060378368 added to arr
+Got a file: readme.pdf
+thread number 140713051985664 added to arr
+Handling: ./Asst0/testcases.txt
+Handling: ./Asst0/readme.pdf
+Got a file: tokenizer.c
+thread number 140713043592960 added to arr
+Got a dir: smt
+Handling: ./Asst0/tokenizer.c
+thread number 140713035200256 added to arr
+Got a dir: dmt
+thread number 140713026807552 added to arr
+Handling: ./Asst0/dmt
+./Asst0/dmt was added at 4
+Handling: ./Asst0/smt
+Joining: 140713060378368
+. will be added at 5
+.. will be added at 6
+smt.txt will be added at 7
+hello.txt will be added at 8
+world.txt will be added at 9
+handled: ./Asst0/dmt
+./Asst0/smt was added at 3
+. will be added at 10
+.. will be added at 11
+handled: ./Asst0/smt
+handled: ./Asst0/testcases.txt
+Joining: 140713051985664
+handled: ./Asst0/tokenizer.c
+handled: ./Asst0/readme.pdf
+Joining: 140713043592960
+Joining: 140713035200256
+Joining: 140713026807552
+Joining: 0
+Joining: 0
+Joining: 0
+Joining: 0
+Joining: 0
+Joining: 0
