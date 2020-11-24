@@ -37,6 +37,19 @@ struct dirnode {
 struct filenode files[100]; //stores the nodes of files
 struct dirnode directory[100]; //stores the nodes of directories
 
+void printFileArr() {
+	int i = 0; 
+	for(i = 0; i <= tracker; i++) {
+		if(i != tracker) {
+			printf("File name: %s\n", files[i].name);
+			printf("Next file: %s\n", files[i].nextFile->name);
+		}
+		else {
+			printf("File name: %s\n", files[i].name);
+		}
+	}
+}
+
 void *grow(struct filenode smt[100], int* capacityPTR) {
     //update capacity
     printf("growing\n");
@@ -85,6 +98,8 @@ void* handleDir(void* kmt) {
                 files[tracker].name = (char *) malloc(sizeof(char *) * totalLen);
                 strcpy(files[tracker].name, tempName);
                 files[tracker].index = tracker;
+		if(tracker != 0)
+			files[tracker - 1].nextFile = &(files[tracker]);
             //   files[tracker].trackerPtr = &tracker;
                 pthread_create(allThreads+threadTracker, NULL, handleFile, &(files[tracker]));
                 printf("thread number %ld added to arr\n", *(allThreads+threadTracker));
@@ -153,6 +168,8 @@ int main(int argc, char** argv) {
             files[tracker].name = (char *) malloc(sizeof(char *) * totalLen);
             strcpy(files[tracker].name, tempName);
             files[tracker].index = tracker;
+	    if(tracker != 0)
+		    files[tracker - 1].nextFile = &(files[tracker]);
          //   files[tracker].trackerPtr = &tracker;
             pthread_create(allThreads+threadTracker, NULL, handleFile, &(files[tracker]));
             printf("thread number %ld added to arr\n", *(allThreads+threadTracker));
@@ -193,6 +210,7 @@ int main(int argc, char** argv) {
     printf("Directories: %d\n", dirTracker);
     printf("Files: %d\n", tracker);
     
+    printFileArr();
     closedir(dirp);
     
     return EXIT_SUCCESS;

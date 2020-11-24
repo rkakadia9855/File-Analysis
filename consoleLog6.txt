@@ -1,0 +1,53 @@
+Got a file: testcases.txt
+thread number 139674398279424 added to arr
+Got a file: readme.pdf
+Handling: ./Asst0/testcases.txt
+thread number 139674389886720 added to arr
+Got a file: tokenizer.c
+Handling: ./Asst0/readme.pdf
+thread number 139674381494016 added to arr
+Got a dir: smt
+Handling: ./Asst0/tokenizer.c
+thread number 139674373101312 added to arr
+Got a dir: dmt
+Handling: ./Asst0/smt
+./Asst0/smt was added at 0
+thread number 139674364708608 added to arr
+Handling: ./Asst0/dmt
+./Asst0/dmt was added at 0
+Joining: 139674398279424
+handled: ./Asst0/smt
+thread number 139674282620672 added to arr
+Handling: ./Asst0/dmt/smt.txt
+thread number 139674274227968 added to arr
+thread number 139674265835264 added to arr
+handled: ./Asst0/dmt
+Handling: ./Asst0/dmt/world.txt
+Handling: ./Asst0/dmt/hello.txt
+handled: ./Asst0/tokenizer.c
+handled: ./Asst0/readme.pdf
+handled: ./Asst0/testcases.txt
+Joining: 139674389886720
+Joining: 139674381494016
+Joining: 139674373101312
+Joining: 139674364708608
+Joining: 139674282620672
+handled: ./Asst0/dmt/world.txt
+handled: ./Asst0/dmt/smt.txt
+handled: ./Asst0/dmt/hello.txt
+Joining: 139674274227968
+Joining: 139674265835264
+Threads: 7
+Directories: 1
+Files: 5
+File name: ./Asst0/testcases.txt
+Next file: ./Asst0/readme.pdf
+File name: ./Asst0/readme.pdf
+Next file: ./Asst0/tokenizer.c
+File name: ./Asst0/tokenizer.c
+Next file: ./Asst0/dmt/smt.txt
+File name: ./Asst0/dmt/smt.txt
+Next file: ./Asst0/dmt/hello.txt
+File name: ./Asst0/dmt/hello.txt
+Next file: ./Asst0/dmt/world.txt
+File name: ./Asst0/dmt/world.txt
