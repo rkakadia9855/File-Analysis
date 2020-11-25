@@ -1,0 +1,641 @@
+Got a file: testcases.txt
+thread number 140145307559680 added to arr
+Got a file: readme.pdf
+
+
+
+
+inspecting ./Asst0/readme.pdf
+inspecting ./Asst0/testcases.txt
+thread number 140145299166976 added to arr
+Got a file: tokenizer.c
+thread number 140145290774272 added to arr
+Got a dir: smt
+
+
+inspecting ./Asst0/tokenizer.c
+thread number 140145282381568 added to arr
+Got a dir: dmt
+Handling: ./Asst0/smt
+thread number 140145273988864 added to arr
+Handling: ./Asst0/dmt
+./Asst0/dmt was added at 0
+./Asst0/smt was added at 0
+Joining: 140145307559680
+thread number 140145265596160 added to arr
+
+
+inspecting ./Asst0/dmt/smt.txt
+handled: ./Asst0/smt
+thread number 140145185519360 added to arr
+
+
+inspecting ./Asst0/dmt/hello.txt
+TINDEX, I);
+                        CHAR *EMPTYSTR = "";
+                        IF(STRCMP(TEMP2, EMPTYSTR) != 0) {
+                            RESULTARR[ARRINDEX] = TEMP2;
+                            ARRINDEX++;
+                            *NUMELEM = *NUMELEM + 1;
+                        }
+                    }
+                    RESULTARR[ARRINDEX] = TEMP;
+                    ARRINDEX++;
+                    FIRSTINDEX = I + 1;
+                    *NUMELEM = *NUMELEM + 1;
+                    MINUSCOUNT = 0;
+                }
+                ELSE IF((STRCMP(TEMP, DECIMALCHAR) == 0) && (DECIMALCOUNT != 0)) {
+                    IF(I != 0) {
+                        TEMP2 = GETSUBSTRING(STR, FIRSTINDEX, I);
+                        CHAR *EMPTYSTR = "";
+                        IF(STRCMP(TEMP2, EMPTYSTR) != 0) {
+                            RESULTARR[ARRINDEX] = TEMP2;
+                            ARRINDEX++;
+                            *NUMELEM = *NUMELEM + 1;
+                        }
+                    }
+                    RESULTARR[ARRINDEX] = TEMP;
+                    ARRINDEX++;
+                    FIRSTINDEX = I + 1;
+                    *NUMELEM = *NUMELEM + 1;
+                    DECIMALCOUNT = 0;
+                }
+                ELSE IF((STRCMP(TEMP, DECIMALCHAR) == 0) && (DECIMALCOUNT == 0) && (I != (STRLEN(STR) - 1))) {
+                    IF(I == 0)
+                        DECIMALCOUNT++;
+                    ELSE IF(ISDIGIT(STR[I - 1]))
+                        DECIMALCOUNT++;
+                    ELSE {
+                        IF(I != 0) {
+                        TEMP2 = GETSUBSTRING(STR, FIRSTINDEX, I);
+                        CHAR *EMPTYSTR = "";
+                        IF(STRCMP(TEMP2, EMPTYSTR) != 0) {
+                            RESULTARR[ARRINDEX] = TEMP2;
+                            ARRINDEX++;
+                            *NUMELEM = *NUMELEM + 1;
+                        }
+                    }
+                        RESULTARR[ARRINDEX] = TEMP;
+                        ARRINDEX++;
+                        FIRSTINDEX = I + 1;
+                        *NUMELEM = *NUMELEM + 1;
+                    }
+                }
+                ELSE IF((STRCMP(TEMP, MINUSCHAR) == 0) && (MINUSCOUNT == 0) && (I != (STRLEN(STR) - 1))) {
+                    CHAR *E = "E";
+                    CHAR *COMP = GETSUBSTRING(STR, I-1, I);
+                    IF((I != 0) && (I != 1) && (STRCMP(E, COMP) == 0 ))
+                        MINUSCOUNT++;
+                    ELSE {
+                        IF(I != 0) {
+                        TEMP2 = GETSUBSTRING(STR, FIRSTINDEX, I);
+                        CHAR *EMPTYSTR = "";
+                        IF(STRCMP(TEMP2, EMPTYSTR) != 0) {
+                            RESULTARR[ARRINDEX] = TEMP2;
+                            ARRINDEX++;
+                            *NUMELEM = *NUMELEM + 1;
+                        }
+                    }
+                        RESULTARR[ARRINDEX] = TEMP;
+                        ARRINDEX++;
+                        FIRSTINDEX = I + 1;
+                        *NUMELEM = *NUMELEM + 1;
+                    }
+                }
+                ELSE {
+                    IF(I != 0) {
+                        TEMP2 = GETSUBSTRING(STR, FIRSTINDEX, I);
+                        CHAR *EMPTYSTR = "";
+                        IF(STRCMP(TEMP2, EMPTYSTR) != 0) {
+                            RESULTARR[ARRINDEX] = TEMP2;
+                            ARRINDEX++;
+                            *NUMELEM = *NUMELEM + 1;
+                        }
+                    }
+                    RESULTARR[ARRINDEX] = TEMP;
+                    ARRINDEX++;
+                    FIRSTINDEX = I + 1;
+                    *NUMELEM = *NUMELEM + 1;
+                }
+            }
+            ELSE {
+                IF(I == (STRLEN(STR) - 1)) {
+                    TEMP2 = GETSUBSTRING(STR, FIRSTINDEX, (I+1));
+                    RESULTARR[ARRINDEX] = TEMP2;
+                    *NUMELEM = *NUMELEM + 1;
+                    ARRINDEX++;
+                    FIRSTINDEX = I + 1;
+                }
+            }
+        }
+        RETURN RESULTARR;
+    }
+
+    RETURN RESULTARR;
+}
+
+/**
+* THIS FUNCTION TOKENIZES THE NUMBER TYPE STRING THAT WAS PASSED. IT REMOVES ANY ALPHABETS EXCEPT OF X AND E
+* (SO THAT HEXADECIMAL AND FLOATING TYPE ARE NOT EXCLUDED) AND ALSO REMOVES ANY "EXTRA" OPERATORS, I.E. DECIMALS
+* AND - FROM FLOATING TYPES ARE NOT REMOVED
+* CHAR *STR: THE STRING THAT NEEDS TO BE TOKENIZED
+* CHAR **OPLIST: THE OPERATOR LIST
+* INT *NUMELEMENT: NUMBER OF STRINGS FORMED AFTER TOKENIZATION
+* RETURNS AN ARRAY OF TOKENIZED STRING
+*/
+CHAR **NUMTOKENIZER(CHAR *STR, CHAR **OPLIST, INT *NUMELEM) {
+    // IF FIRST CHAR IS DIGIT, TOKENIZER IF ALPHA FOUND, AND ALPHA IS NOT X OR E
+    // IF IT HAS AN X IN IT, REMOVE ANY DECIMALS
+    INT I = 0;
+    INT J = 0;
+    INT ARRINDEX = 0;
+    CHAR **RESULTARR = (CHAR **) MALLOC(SIZEOF(CHAR *) * 1000);
+    INT ALLOWDECIMAL = 0;
+    INT DECIMALPRESENT = -1;
+    INT STARTINGALPHA = -1;
+    INT FIRSTINDEX = 0;
+    FOR(I = 0; I < STRLEN(STR); I++) {
+        CHAR *TEMP = GETSUBSTRING(STR, I, I+1);
+        CHAR *TEMP2 = "TEMP";
+        INT MATCH = -1;
+        IF(ISALPHA(STR[I])) {
+            IF((I == 1) && ((STR[I] == 'X') || (STR[I] == 'X')) && (STR[I-1] == '0')) {
+                // MAKE SURE THERE ARE NO DECIMALS
+                ALLOWDECIMAL = -1;
+            }
+            ELSE IF((STR[I] == 'E') && (I != (STRLEN(STR) - 1)) && (STR[I+1] == '-') ) {
+                //MAYBE CONTINUE
+                CONTINUE;
+            }
+            ELSE IF(ALLOWDECIMAL == -1) {
+                IF(ISXDIGIT(STR[I])) {
+                    IF(I != (STRLEN(STR) - 1))
+                        CONTINUE;
+                    ELSE {
+                        TEMP2 = GETSUBSTRING(STR, FIRSTINDEX, (I+1));
+                        RESULTARR[ARRINDEX] = TEMP2;
+                        *NUMELEM = *NUMELEM + 1;
+                        ARRINDEX++;
+                        FIRSTINDEX = I + 1;
+                    }
+                }
+            }
+            ELSE {
+                //CARRY OUT TOKENIZATION
+                // REMOVE ALPH
+                TEMP2 = GETSUBSTRING(STR, FIRSTINDEX, I);
+                CHAR *EMPTYSTR = "";
+                IF(STRCMP(TEMP2, EMPTYSTR) != 0) {
+                    RESULTARR[ARRINDEX] = TEMP2;
+                    ARRINDEX++;
+                    *NUMELEM = *NUMELEM + 1;
+                }
+                IF((I != (STRLEN(STR) - 1)) && ISALNUM(STR[I+1])) {
+                    FIRSTINDEX = I;
+                }
+                ELSE {
+                    RESULTARR[ARRINDEX] = TEMP;
+                    ARRINDEX++;
+                    FIRSTINDEX = I + 1;
+                    *NUMELEM = *NUMELEM + 1;
+                }
+            }
+        }
+        ELSE IF((STR[I] == '.') ) {
+            IF((ALLOWDECIMAL == -1)) {
+                TEMP2 = GETSUBSTRING(STR, FIRSTINDEX, I);
+                CHAR *EMPTYSTR = "";
+                IF(STRCMP(TEMP2, EMPTYSTR) != 0) {
+                    RESULTARR[ARRINDEX] = TEMP2;
+                    ARRINDEX++;
+                    *NUMELEM = *NUMELEM + 1;
+                }
+                RESULTARR[ARRINDEX] = TEMP;
+                ARRINDEX++;
+                FIRSTINDEX = I + 1;
+                *NUMELEM = *NUMELEM + 1;
+            }
+            ELSE IF((I != (STRLEN(STR) - 1)) && (ISALPHA(STR[I+1]))) {
+                TEMP2 = GETSUBSTRING(STR, FIRSTINDEX, I);
+                CHAR *EMPTYSTR = "";
+                IF(STRCMP(TEMP2, EMPTYSTR) != 0) {
+                    RESULTARR[ARRINDEX] = TEMP2;
+                    ARRINDEX++;
+                    *NUMELEM = *NUMELEM + 1;
+                }
+                RESULTARR[ARRINDEX] = TEMP;
+                ARRINDEX++;
+                FIRSTINDEX = I + 1;
+                *NUMELEM = *NUMELEM + 1;
+            }
+        }
+        ELSE {
+            //KEEP FORMING A SUBSTRING
+            IF(I == (STRLEN(STR) - 1)) {
+                TEMP2 = GETSUBSTRING(STR, FIRSTINDEX, (I+1));
+                RESULTARR[ARRINDEX] = TEMP2;
+                *NUMELEM = *NUMELEM + 1;
+                ARRINDEX++;
+                FIRSTINDEX = I + 1;
+            }
+        }
+    }
+    RETURN RESULTARR;
+}
+
+/**
+* THIS FUNCTION TOKENIZES A WORD THAT IS PASSED. I.E. IT REMOVES ANY OPERATORS IF STILL PRESENT
+* CHAR *STR: THE STRING THAT NEEDS TO BE TOKENIZED
+* CHAR **OPLIST: THE OPERATOR LIST
+* INT *NUMELEMENT: NUMBER OF STRINGS FORMED AFTER TOKENIZATION
+* RETURNS AN ARRAY OF TOKENIZED STRING
+*/
+CHAR **WORDTOKENIZER(CHAR *STR, CHAR **OPLIST, INT *NUMELEM) {
+    INT I = 0;
+    INT J = 0;
+    INT ARRINDEX = 0;
+    CHAR **RESULTARR = (CHAR **) MALLOC(SIZEOF(CHAR *) * 1000);
+    INT FIRSTINDEX = 0;
+    FOR(I = 0; I < STRLEN(STR); I++) {
+        CHAR *TEMP = GETSUBSTRING(STR, I, I+1);
+        CHAR *TEMP2 = "TEMP";
+        INT MATCH = -1;
+        MATCH = MATCHOPERATOR(TEMP, OPLIST);
+        IF(MATCH == 0) {
+            IF(I != 0) {
+                TEMP2 = GETSUBSTRING(STR, FIRSTINDEX, I);
+                CHAR *EMPTYSTR = "";
+                IF(STRCMP(TEMP2, EMPTYSTR) != 0) {
+                    RESULTARR[ARRINDEX] = TEMP2;
+                    ARRINDEX++;
+                    *NUMELEM = *NUMELEM + 1;
+                }
+            }
+            RESULTARR[ARRINDEX] = TEMP;
+            ARRINDEX++;
+            FIRSTINDEX = I + 1;
+            *NUMELEM = *NUMELEM + 1;
+        }
+        ELSE {
+            IF(I == (STRLEN(STR) - 1)) {
+                TEMP2 = GETSUBSTRING(STR, FIRSTINDEX, (I+1));
+                RESULTARR[ARRINDEX] = TEMP2;
+                *NUMELEM = *NUMELEM + 1;
+                ARRINDEX++;
+                FIRSTINDEX = I + 1;
+            }
+        }
+    }
+    RETURN RESULTARR;
+}
+
+/**
+* THIS FUNCTION SEPARATES/TOKENIZES ALL THE STRINGS, THAT WERE FIRST TOKENIZED USING WHITE SPACES ONLY
+* CHAR **FIRSTARR: AN ARRAY OF STRINGS THAT WERE TOKENIZED USING WHITE SPACES
+* CHAR **SECONDARR: AN ARRAY OF STRINGS THAT WILL STORE THE TOKENIZED STRING
+* INT FIRSTARRLEN: LENGTH OF FIRSTARR
+* INT *SECONDARRLEN: POINTER TO THE LENGTH OF SECONDARR
+* CHAR **OPLIST: THE OPERATOR LIST
+*/
+VOID FURTHERSEPARATION(CHAR **FIRSTARR, CHAR **SECONDARR, INT FIRSTARRLEN, INT *SECONDARRLEN, CHAR **OPLIST) {
+    INT I = 0;
+    INT J = 0;
+    INT TRACKARR = 0; //TRACKER FOR SECONDARR
+    INT NUMTEMP = 0; //TRACKER FOR TEMP ARRAY
+    CHAR **TEMP = (CHAR **) MALLOC(SIZEOF(CHAR *) * (FIRSTARRLEN+100)); // REPLACES THE FIRST ARRAY
+    FOR(I = 0; I < FIRSTARRLEN; I++) {
+        CHAR *OP = "(";
+        INT NUMBROKEN = 0;
+        CHAR **TEMPORARY = TOKENIZER(FIRSTARR[I], OP, OPLIST, &NUMBROKEN);
+        FOR(J = 0; J < NUMBROKEN; J++) {
+            TEMP[NUMTEMP] = TEMPORARY[J];
+            NUMTEMP++;
+        }
+    }
+    FOR(I = 0; I < NUMTEMP; I++) {
+        // IF FIRST CHAR IS ALPHA, REMOVE ANY OPERATORS IF LEFT
+        IF(ISALPHA(TEMP[I][0])) {
+            // SEPARATE THE TOKEN AND THEN ADD THOSE TO ARRAY
+            INT COUNTSEPARATIONS = 0;
+            INT K = 0;
+            CHAR **TEMPORARY = WORDTOKENIZER(TEMP[I], OPLIST, &COUNTSEPARATIONS);
+            FOR(K = 0; K < COUNTSEPARATIONS; K++) {
+                SECONDARR[TRACKARR] = TEMPORARY[K];
+                *SECONDARRLEN = *SECONDARRLEN + 1;
+                TRACKARR++;
+            }
+        }
+        // IF FIRST CHAR IS DIGIT, TOKENIZER IF ALPHA FOUND, AND ALPHA IS NOT X OR E
+        // IF IT HAS AN X IN IT, REMOVE ANY DECIMALS
+        ELSE IF(ISDIGIT(TEMP[I][0])) {
+            // SEPARATE THE TOKEN AND THEN ADD THOSE TO ARRAY
+            INT COUNTSEPARATIONS = 0;
+            INT K = 0;
+            CHAR **TEMPORARY = NUMTOKENIZER(TEMP[I], OPLIST, &COUNTSEPARATIONS);
+            FOR(K = 0; K < COUNTSEPARATIONS; K++) {
+                SECONDARR[TRACKARR] = TEMPORARY[K];
+                *SECONDARRLEN = *SECONDARRLEN + 1;
+                TRACKARR++;
+            }
+        }
+        ELSE {
+            SECONDARR[TRACKARR] = TEMP[I];
+            *SECONDARRLEN = *SECONDARRLEN + 1;
+                TRACKARR++;
+        }
+    }
+
+}
+
+/**
+* THIS FUNCTION CHECKS IF THE GIVEN STRING IS A HEXADECIMAL INTEGER
+* CHAR *STR: THE STRING THAT NEEDS TO BE CHECKED
+* RETURNS 0 IF THE STR IS HEXADECIMAL, -1 OTHERWISE
+*/
+INT ISHEXA(CHAR *STR) {
+    INT I = 0;
+    INT LOOP = STRLEN(STR);
+    INT CONTAINSX = -1;
+    IF(STR[0] != '0')
+        RETURN -1;
+    FOR(I = 0; I < LOOP; I++) {
+        IF(STR[I] == 'X' || STR[I] == 'X')
+            CONTAINSX = 0;
+        ELSE IF(!(ISXDIGIT(STR[I]))) {
+            RETURN -1;
+        }
+    }
+    RETURN CONTAINSX;
+}
+
+/**
+* THIS FUNCTION CHECKS IF THE GIVEN STRING IS OCTAL
+* CHAR *STR: THE STRING THAT NEEDS TO BE CHECKED
+* RETURNS 0 IF THE STR IS OCTAL, -1 OTHERWISE
+*/
+INT ISOCT(CHAR *STR) {
+    INT I = 0;
+    INT LOOP = STRLEN(STR);
+    FOR(I = 0; I < LOOP; I++) {
+        IF((I == 0) && (STR[I] != '0'))
+            RETURN -1;
+        IF((STR[I] > '7') || (STR[I] < '0')) {
+            RETURN -1;
+        }
+    }
+    RETURN 0;
+}
+
+/**
+* THIS FUNCTION CHECKS IF THE GIVEN STRING IS FLOATING TYPE
+* CHAR *STR: THE STRING THAT NEEDS TO BE CHECKED
+* RETURNS 0 IF THE STR IS FLOATING TYPE, -1 OTHERWISE
+*/
+INT ISFLOATING(CHAR *STR) {
+    INT I = 0;
+    INT LOOP = STRLEN(STR);
+    FOR(I = 0; I < LOOP; I++) {
+        IF(STR[I] == '.')
+            RETURN 0;
+        ELSE IF(STR[I] == 'E')
+            RETURN 0;
+    }
+    RETURN -1;
+}
+
+
+INT MAIN(INT ARGC, CHAR **ARGV)
+{
+    IF(ARGC != 2) {
+        PRINTF("%S\N", "INVALID NUMBER OF ARGUMENTS.");
+        RETURN -1;
+    }
+
+    CHAR *INITIALSTRING = ARGV[1];
+    INT INITIALLENGTH  = 0;
+    INITIALLENGTH = STRLEN(INITIALSTRING);
+    INT I = 0;
+    INT TRACKOUTPUTARR = 0;
+    INT INSIDETRACKER = 0;
+
+    CHAR *OPERATORLIST[] = {"(", ")", "[", "]", ".", "->", "SIZEOF", ",", "!", "~", ">>", "<<",
+     "^", "|", "++", "--", "+", "/", "||", "&&", "?", ":", "==", "!=", "<", ">", "<=", ">=", "=",
+     "+=", "-=", "*=", "/=", "%=", ">>=", "<<=", "&=", "^=", "|=", "&", "-", "*"};
+
+     CHAR *OPERATORNAME[] = {"LEFT PARENTHESIS", "RIGHT PARENTHESIS", "LEFT BRACKET", "RIGHT BRACKET",
+     "STRUCTURE MEMBER", "STRUCTURE POINTER", "SIZEOF", "COMMA", "NEGATE", "1S COMPLEMENT", "SHIFT RIGHT",
+     "SHIFT LEFT", "BITWISE XOR", "BITWISE OR", "INCREMENT", "DECREMENT", "ADDITION", "DIVISION", "LOGICAL OR",
+     "LOGICAL AND", "CONDITIONAL TRUE", "CONDITIONAL FALSE", "EQUALITY TEST", "INEQUALITY TEST", "LESS THAN TEST",
+     "GREATER THAN TEST", "LESS THAN OR EQUAL TEST", "GREATER THAN OR EQUAL TEST", "ASSIGNMENT", "PLUS EQUALS",
+     "MINUS EQUALS", "TIMES EQUALS", "DIVIDE EQUALS", "MOD EQUALS", "SHIFT RIGHT EQUALS", "SHIFT LEFT EQUALS",
+     "BITWISE AND EQUALS", "BITWISE XOR EQUALS", "BITWISE OR EQUALS", "AND/ADDRESS OPERATOR",
+     "MINUS/SUBTRACT OPERATOR", "MULTIPLY/DEREFERENCE OPERATOR"};
+
+    // BUILD A 2-D OUTPUT ARRAY AND ALLOCATE SPACE FOR ALL ARRAYS IN THIS ARRAY
+    CHAR **OUTPUTARR = (CHAR **) MALLOC(SIZEOF(CHAR *) * INITIALLENGTH);
+    FOR(I = 0; I < INITIALLENGTH; I++) {
+        OUTPUTARR[I] = (CHAR *) MALLOC(SIZEOF(CHAR) * INITIALLENGTH);
+    }
+
+    // FIRST TOKENIZE STRING BY SEPARATING WHITE-SPACES
+    FOR(I = 0; I < INITIALLENGTH; I++) {
+        IF(!(ISSPACE(INITIALSTRING[I])) && !(INITIALSTRING[I] == '\0') && (I != (INITIALLENGTH - 1))) {
+                OUTPUTARR[TRACKOUTPUTARR][INSIDETRACKER] = INITIALSTRING[I];
+                INSIDETRACKER++;
+        }
+        ELSE {
+            IF(TRACKOUTPUTARR < INITIALLENGTH) {
+                IF((I == (INITIALLENGTH - 1)) && !(ISSPACE(INITIALSTRING[I])) ) {
+                        OUTPUTARR[TRACKOUTPUTARR][INSIDETRACKER] = INITIALSTRING[I];
+                        INSIDETRACKER++;
+
+                }
+                OUTPUTARR[TRACKOUTPUTARR] = STRCAT(OUTPUTARR[TRACKOUTPUTARR], "\0");
+                TRACKOUTPUTARR++;
+                INSIDETRACKER = 0;
+            }
+            ELSE {
+                PRINTF("%S\N", "SOME ERROR OCCURED. OUTPUT ARRAY EXCEEDED INITIALLENGTH OF THE STRING");
+            }
+        }
+    }
+
+    // SEND ALL TOKENS FOR SECOND ROUND OF SEPARATIONS. I.E. SEPARATE STRINGS FROM OPERATORS
+    INT FINALOUTPUTTRACKER = 0;
+    CHAR **TEMPOUTPUTARR = (CHAR **) MALLOC(SIZEOF(CHAR *) * INITIALLENGTH);
+    FOR(I = 0; I < INITIALLENGTH; I++) {
+        TEMPOUTPUTARR[I] = (CHAR *) MALLOC(SIZEOF(CHAR) * INITIALLENGTH);
+    }
+
+    FURTHERSEPARATION(OUTPUTARR, TEMPOUTPUTARR, TRACKOUTPUTARR, &FINALOUTPUTTRACKER, OPERATORLIST);
+
+    // TIME TO COMBINE OPERATORS THAT NEED TO BE COMBINED. EG: IF ARR[0] IS + AND ARR[1] IS +, THEY CAN BE
+    // COMBINED INTO ARR[0]: ++
+    // LOOP THROUGH EACH VAR NOT EACH CHARACTER
+    CHAR **DRAFTOUTPUTARR = (CHAR **) MALLOC(SIZEOF(CHAR *) * INITIALLENGTH);
+    FOR(I = 0; I < FINALOUTPUTTRACKER; I++) {
+        DRAFTOUTPUTARR[I] = (CHAR *) MALLOC(SIZEOF(CHAR) * INITIALLENGTH);
+    }
+    INT DRAFTOUTPUTTRACKER = 0;
+    FOR(I = 0; I < FINALOUTPUTTRACKER; I++) {
+        IF(MATCHOPERATOR(TEMPOUTPUTARR[I], OPERATORLIST) == 0) {
+            // IF > OR <, CHECK FOR >>> <<< (IF NOT), CHECK FOR >> <<
+            //ELSE CHECK OTHER OPERATORS
+            IF((STRCMP(TEMPOUTPUTARR[I], ">") == 0) || STRCMP(TEMPOUTPUTARR[I], "<") == 0) {
+                IF( (I != (FINALOUTPUTTRACKER - 1)) && (STRCMP(TEMPOUTPUTARR[I], TEMPOUTPUTARR[I+1]) == 0)) {
+                    IF( (I != (FINALOUTPUTTRACKER - 2)) && (STRCMP("=", TEMPOUTPUTARR[I+2]) == 0)) {
+                        CHAR TEMP001[100]; //TEMP VARIABLE
+                        STRCPY(TEMP001, TEMPOUTPUTARR[I]);
+                        STRCAT(TEMP001, TEMPOUTPUTARR[I+1]);
+                        STRCAT(TEMP001, TEMPOUTPUTARR[I+2]);
+                        STRCPY(DRAFTOUTPUTARR[DRAFTOUTPUTTRACKER], TEMP001);
+                        DRAFTOUTPUTTRACKER++;
+                        I = I + 2;
+                    }
+                    ELSE {
+                        CHAR TEMP002[100]; //TEMP VARIABLE
+                        STRCPY(TEMP002, TEMPOUTPUTARR[I]);
+                        STRCAT(TEMP002, TEMPOUTPUTARR[I+1]);
+                        STRCPY(DRAFTOUTPUTARR[DRAFTOUTPUTTRACKER], TEMP002);
+                        DRAFTOUTPUTTRACKER++;
+                        I = I + 1;
+                    }
+                }
+                ELSE IF((I != (FINALOUTPUTTRACKER - 1))) {
+                    CHAR TEMP003[100]; //TEMP VARIABLE
+                    STRCPY(TEMP003, TEMPOUTPUTARR[I]);
+                    STRCAT(TEMP003, TEMPOUTPUTARR[I+1]);
+                    IF(MATCHOPERATOR(TEMP003, OPERATORLIST) == 0) {
+                        STRCPY(DRAFTOUTPUTARR[DRAFTOUTPUTTRACKER], TEMP003);
+                        DRAFTOUTPUTTRACKER++;
+                        I = I + 1;
+                    }
+                    ELSE {
+                        DRAFTOUTPUTARR[DRAFTOUTPUTTRACKER] = TEMPOUTPUTARR[I];
+                        DRAFTOUTPUTTRACKER++;
+                    }
+                }
+                ELSE {
+                    DRAFTOUTPUTARR[DRAFTOUTPUTTRACKER] = TEMPOUTPUTARR[I];
+                    DRAFTOUTPUTTRACKER++;
+                }
+            }
+            ELSE {
+                CHAR TEMP004[100]; //TEMP VARIABLE
+                STRCPY(TEMP004, TEMPOUTPUTARR[I]);
+                IF(I != (FINALOUTPUTTRACKER - 1)) {
+                    STRCAT(TEMP004, TEMPOUTPUTARR[I+1]);
+                    IF(MATCHOPERATOR(TEMP004, OPERATORLIST) == 0) {
+                        STRCPY(DRAFTOUTPUTARR[DRAFTOUTPUTTRACKER], TEMP004);
+                        DRAFTOUTPUTTRACKER++;
+                        I = I + 1;
+                    }
+                    ELSE {
+                        DRAFTOUTPUTARR[DRAFTOUTPUTTRACKER] = TEMPOUTPUTARR[I];
+                        DRAFTOUTPUTTRACKER++;
+                    }
+                }
+                ELSE {
+                    STRCPY(DRAFTOUTPUTARR[DRAFTOUTPUTTRACKER], TEMP004);
+                    DRAFTOUTPUTTRACKER++;
+                }
+            }
+        }
+        ELSE {
+            DRAFTOUTPUTARR[DRAFTOUTPUTTRACKER] = TEMPOUTPUTARR[I];
+            DRAFTOUTPUTTRACKER++;
+        }
+    }
+
+    CHAR **RESULTANTOUTPUTARR = (CHAR **) MALLOC(SIZEOF(CHAR *) * DRAFTOUTPUTTRACKER);
+    FOR(I = 0; I < INITIALLENGTH; I++) {
+        RESULTANTOUTPUTARR[I] = (CHAR *) MALLOC(SIZEOF(CHAR) * INITIALLENGTH);
+    }
+    // TIME TO ADD THEIR TYPES TO THE TOKENS
+    FOR(I = 0; I < DRAFTOUTPUTTRACKER; I++) {
+        IF(STRCMP(DRAFTOUTPUTARR[I], "SIZEOF") == 0) {
+            STRCPY(RESULTANTOUTPUTARR[I], "SIZEOF: \"");
+            STRCAT(RESULTANTOUTPUTARR[I], DRAFTOUTPUTARR[I]);
+            STRCAT(RESULTANTOUTPUTARR[I], "\"");
+        }
+        ELSE IF(ISALPHA(DRAFTOUTPUTARR[I][0])) {
+            STRCPY(RESULTANTOUTPUTARR[I], "WORD: \"");
+            STRCAT(RESULTANTOUTPUTARR[I], DRAFTOUTPUTARR[I]);
+            STRCAT(RESULTANTOUTPUTARR[I], "\"");
+        }
+        ELSE IF(!(ISALNUM(DRAFTOUTPUTARR[I][0]))) {
+            INT INDEXFOUND = 0;
+            INDEXFOUND = OPERATORINDEX(DRAFTOUTPUTARR[I], OPERATORLIST);
+            IF(INDEXFOUND != -1) {
+                STRCPY(RESULTANTOUTPUTARR[I], OPERATORNAME[INDEXFOUND]);
+                STRCAT(RESULTANTOUTPUTARR[I], ": \"");
+                STRCAT(RESULTANTOUTPUTARR[I], DRAFTOUTPUTARR[I]);
+                STRCAT(RESULTANTOUTPUTARR[I], "\"");
+            }
+        }
+        ELSE IF(ISDIGIT(DRAFTOUTPUTARR[I][0])) {
+            IF(ISHEXA(DRAFTOUTPUTARR[I]) == 0) {
+                STRCPY(RESULTANTOUTPUTARR[I], "HEXADECIMAL INTEGER: \'");
+                STRCAT(RESULTANTOUTPUTARR[I], DRAFTOUTPUTARR[I]);
+                STRCAT(RESULTANTOUTPUTARR[I], "\"");
+            }
+            ELSE IF(ISOCT(DRAFTOUTPUTARR[I]) == 0) {
+                STRCPY(RESULTANTOUTPUTARR[I], "OCTAL INTEGER: \'");
+                STRCAT(RESULTANTOUTPUTARR[I], DRAFTOUTPUTARR[I]);
+                STRCAT(RESULTANTOUTPUTARR[I], "\"");
+            }
+            ELSE IF(ISFLOATING(DRAFTOUTPUTARR[I]) == 0) {
+                STRCPY(RESULTANTOUTPUTARR[I], "FLOATING POINT: \'");
+                STRCAT(RESULTANTOUTPUTARR[I], DRAFTOUTPUTARR[I]);
+                STRCAT(RESULTANTOUTPUTARR[I], "\"");
+            }
+            ELSE {
+                STRCPY(RESULTANTOUTPUTARR[I], "DECIMAL INTEGER: \'");
+                STRCAT(RESULTANTOUTPUTARR[I], DRAFTOUTPUTARR[I]);
+                STRCAT(RESULTANTOUTPUTARR[I], "\"");
+            }
+        }
+    }
+
+    FOR(I = 0; I < DRAFTOUTPUTTRACKER; I++) {
+        PRINTF("%S\N", RESULTANTOUTPUTARR[I]);
+    }
+    FREE(RESULTANTOUTPUTARR);
+
+    FOR(I = 0; I < DRAFTOUTPUTTRACKER; I++) {
+            FREE(DRAFTOUTPUTARR[I]);
+    }
+    FREE(DRAFTOUTPUTARR);
+    FOR(I = 0; I < FINALOUTPUTTRACKER; I++) {
+        FREE(TEMPOUTPUTARR[I]);
+    }
+    FREE(TEMPOUTPUTARR);
+
+    FOR(I = 0; I < TRACKOUTPUTARR; I++) {
+        FREE(OUTPUTARR[I]);
+    }
+    FREE(OUTPUTARR);
+
+    RETURN 0;
+}
+Whitespace chars: 10679
+Joining: 140145282381568
+Joining: 140145273988864
+Joining: 140145265596160
+Joining: 140145185519360
+Joining: 140145177126656
+Threads: 7
+Directories: 1
+Files: 5
+File name: ./Asst0/testcases.txt
+Next file: ./Asst0/readme.pdf
+File name: ./Asst0/readme.pdf
+Next file: ./Asst0/tokenizer.c
+File name: ./Asst0/tokenizer.c
+Next file: ./Asst0/dmt/smt.txt
+File name: ./Asst0/dmt/smt.txt
+Next file: ./Asst0/dmt/hello.txt
+File name: ./Asst0/dmt/hello.txt
+Next file: ./Asst0/dmt/world.txt
+File name: ./Asst0/dmt/world.txt
