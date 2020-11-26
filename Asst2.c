@@ -20,6 +20,7 @@ int threadTracker = -1;
 struct wordnode {
     char* name;
     int totalCount;
+    double probability;
     struct wordnode *nextWord;
 };
 
@@ -83,11 +84,107 @@ void* handleFile(void* kmt) {
     bytes = read(fd, buffer, filesize);
     if(bytes < 0)
         printf("error\n");
-    else
-        printf("%s\n", buffer);
+
+    int j = 0;
+    printf("num chars: %d\n", filesize);
+    for(j = 0; j < strlen(buffer); j++) {
+        buffer[j] = tolower(buffer[j]);
+    }
+    
+    char* token = strtok(buffer, " \n\t\r\v\f");
     // could check here whether bytes is negative
     //  bytes == 0  - end of file
     //  bytes <  0  - error
+printf("jsl\n");
+    struct wordnode **head;
+    head = &(funcArgs->headWord);
+    printf("head assigned\n");
+    struct wordnode *nodeTracker =  *(head);//struct wordnode*) malloc(sizeof(struct wordnode));
+//    nodeTracker =  *(funcArgs->headWord);
+    printf("added head\n");
+    struct wordnode* new_node = (struct wordnode*) malloc(sizeof(struct wordnode));
+    struct wordnode *prevNode;
+    int infi = 0;
+
+    while (token != NULL) { 
+//	    printf("%s\n", token);
+        if(nodeTracker == NULL) {
+		    printf("head is null\n");
+            new_node->name = token;
+            new_node->totalCount = 1;
+            new_node->probability = 1/filesize;
+            new_node->nextWord = NULL;
+            *(head) = new_node;
+            prevNode = *(head);
+            nodeTracker = *(head);
+            printf("head word: %s\n", nodeTracker->name);
+        }
+        else {
+//		printf("head is not null\n");
+            while(nodeTracker != NULL) {
+                infi++;
+                printf("current word: %s\n", nodeTracker->name);
+                printf("next word null? %d\n", (nodeTracker->nextWord == NULL));
+//                printf("next word name %s\n", nodeTracker->nextWord->name);
+                if(strcmp(nodeTracker->name, token) == 0) {
+                    nodeTracker->totalCount = nodeTracker->totalCount + 1;
+                    nodeTracker->probability = nodeTracker->totalCount/filesize;
+                    printf("incremented count for : %s\n", nodeTracker->name);
+                    break;
+                }
+              /*  if(nodeTracker->nextWord == NULL) {
+                    if(strcmp(nodeTracker->name, token) == 0) {
+                        nodeTracker->totalCount = nodeTracker->totalCount + 1;
+                        nodeTracker->probability = nodeTracker->totalCount/filesize;
+                        printf("incremented count for : %s\n", nodeTracker->name);
+                        break;
+                    }
+                    else {
+                        struct wordnode addWord;
+                        addWord.name = token;
+                        addWord.totalCount = 1;
+                        addWord.probability = 1/filesize;
+                        nodeTracker->nextWord = &addWord;
+                        printf("added at the end : %s\n", nodeTracker->nextWord->name);
+                        break;
+                    }
+                } */
+//		printf("here\n");
+                prevNode = nodeTracker;
+//		printf("threre\n");
+                nodeTracker = nodeTracker->nextWord;
+//:wq
+//printf("no where\n");
+            }
+        }
+        if(nodeTracker == NULL) {
+            new_node->name = token;
+            new_node->totalCount = 1;
+            new_node->probability = 1/filesize;
+            new_node->nextWord = NULL;
+            prevNode->nextWord = new_node;
+	    printf("%s added\n", prevNode->nextWord->name);
+	    printf("prev node: %s\n", prevNode->name);
+        }
+        token = strtok(NULL, " \n\t\r\v\f"); 
+    }
+
+    struct wordnode** tmp;
+    tmp = &(funcArgs->headWord);
+    struct wordnode* parseList;
+    parseList = *(tmp);
+    printf("head: %s\n", parseList->name);
+    parseList = parseList->nextWord;
+    printf("next: %s\n", parseList->name);
+    parseList = parseList->nextWord;
+    printf("next: %s\n", parseList->name);
+
+/*	nodeTracker = funcArgs->headWord;
+	while(nodeTracker != NULL) {
+		printf("%s ---> ", nodeTracker->name);
+		nodeTracker = nodeTracker->nextWord;
+	}
+	printf("NULL\n"); */
 
     close(fd);
     
