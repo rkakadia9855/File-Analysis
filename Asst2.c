@@ -74,27 +74,20 @@ void* handleFile(void* kmt) {
 
     char buf[BUFSIZE];
     int bytes, pos;
-    int ws = 0;
+    int filesize = 0;
+    struct stat st;
+    stat(name, &st);
+    filesize = (int) st.st_size;
 
-    while (0 < (bytes = read(fd, buf, BUFSIZE))) {
-        //printf("Read %d bytes\n", bytes);
-        for (pos = 0; pos < bytes; ++pos) {
-            if (isspace(buf[pos])) {
-                ws++;
-            } else if (isalpha(buf[pos])) {
-                buf[pos] = toupper(buf[pos]);
-            } else if (buf[pos] == '\0') {
-                write(STDOUT_FILENO, "!!!", 3);
-            }
-
-        }
-        write(STDOUT_FILENO, buf, bytes);
-    }
+    char* buffer = (char *) malloc(sizeof(char) * filesize);
+    bytes = read(fd, buffer, filesize);
+    if(bytes < 0)
+        printf("error\n");
+    else
+        printf("%s\n", buffer);
     // could check here whether bytes is negative
     //  bytes == 0  - end of file
     //  bytes <  0  - error
-
-    printf("Whitespace chars: %d\n", ws);
 
     close(fd);
     
