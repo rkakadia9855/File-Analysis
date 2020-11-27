@@ -20,6 +20,7 @@ int threadTracker = -1;
 struct wordnode {
     char* name;
     int totalCount;
+    double probability;
     struct wordnode *nextWord;
 };
 
@@ -83,15 +84,78 @@ void* handleFile(void* kmt) {
     bytes = read(fd, buffer, filesize);
     if(bytes < 0)
         printf("error\n");
-    else
-        printf("%s\n", buffer);
-    // could check here whether bytes is negative
-    //  bytes == 0  - end of file
-    //  bytes <  0  - error
+        
+    char* token = strtok(buffer, " \n\t\v\f\r");
+
+    while(token != NULL) {
+        
+        if(funcArgs->headWord == NULL) {
+            struct wordnode headNode;
+            headNode.name = token;
+            headNode.totalCount = 1;
+            headNode.probability = 1/filesize;
+            headNode.nextWord = NULL;
+
+            funcArgs->headWord = (struct wordnode*) malloc(sizeof(struct wordnode));
+            funcArgs->headWord = &headNode;
+            token = strtok(NULL, " \n\t\r\v\f"); 
+            continue;
+        }
+
+        struct wordnode* track;
+        track = funcArgs->headWord;
+
+        int found = 0;
+
+        struct wordnode* tempNode = (struct wordnode*) malloc(sizeof(struct wordnode)); 
+        tempNode->name = token;
+        tempNode->totalCount = 1;
+        tempNode->probability = 1/filesize;
+        tempNode->nextWord = NULL;
+
+        while(track->nextWord != NULL) {
+
+            if(strcmp(track->name, token) == 0) {
+                track->totalCount = track->totalCount + 1;
+                track->probability = track->totalCount/filesize;
+                found = 1;
+                break;
+            }
+
+            track = track->nextWord;
+            if(track->nextWord == NULL) {
+                if(strcmp(track->name, token) == 0) {
+                    track->totalCount = track->totalCount + 1;
+                    track->probability = track->totalCount/filesize;
+                    found = 1;
+                   // break;
+                }
+            }
+        }
+
+        if(found != 1) {
+            track->nextWord = tempNode;
+        }
+
+/*        track = funcArgs->headWord;
+
+        while(track != NULL) {
+            printf("%s ---> ", track->name); 
+            track = track->nextWord;
+        }   */
+
+        token = strtok(NULL, " \n\t\r\v\f"); 
+    }
+
+	struct wordnode* track;
+       track = funcArgs->headWord;
+	while(track != NULL) {
+		printf("%s ---> ", track->name);
+		track = track->nextWord;
+	}
 
     close(fd);
     
-
 }
 
 void* handleDir(void* kmt) {
