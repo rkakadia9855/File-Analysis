@@ -1,10 +1,59 @@
 Got a file: testcases.txt
-thread number 140607163614976 added to arr
+thread number 140456512173824 added to arr
+Got a file: readme.pdf
 
 
 inspecting ./Asst0/testcases.txt
-Joining: 140607163614976
-test ---> case ---> 1: ---> input: ---> "today ---> is ---> a ---> beautiful ---> day" ---> expected ---> output: ---> word: ---> “today” ---> “is” ---> “a” ---> “beautiful” ---> “day” ---> 2: ---> "0x4356abdc ---> 0777 ---> [] ---> " ---> hexadecimal ---> integer: ---> "0x4356abdc" ---> octal ---> "0777" ---> left ---> bracket: ---> "[" ---> right ---> "]" ---> 3: ---> “array[xyz ---> ] ---> += ---> pi ---> 3.14159e-10” ---> "array" ---> "xyz" ---> plus ---> equals: ---> "+=" ---> "pi" ---> float: ---> "3.141519e-10" ---> 4: ---> "numbers ---> 972 ---> 0x972 ---> A8 ---> 0XA8 ---> XA8 ---> 0972 ---> 072" ---> "numbers" ---> decimal ---> "972" ---> "0x972" ---> "A8" ---> "0XA8" ---> "XA8" ---> "0972" ---> "072" ---> 5: ---> "3.1 ---> 03.1 ---> x3.1 ---> 0x3.1 ---> 30x1.x" ---> floating ---> point: ---> "3.1" ---> "03.1" ---> "x3" ---> structure ---> member: ---> "." ---> "1" ---> "0x3" ---> "30" ---> "x1" ---> "x" ---> 6: ---> "+,++,+++,++++,+++++,++=,+++==" ---> addition: ---> "+" ---> comma: ---> "," ---> increment: ---> "++" ---> assignment: ---> "=" ---> 7: ---> "arr12x0. ---> da+-=*.32e- ---> []" ---> "arr" ---> "12" ---> "x0" ---> "da" ---> minus ---> "-=" ---> multiplication: ---> "*" ---> "32" ---> "e" ---> minus: ---> "-" ---> bracker: ---> 8: ---> "hello123 ---> 456world" ---> "hello123" ---> "456" ---> "world" ---> 5 ---> Threads: 0
-Directories: -1
-Files: 0
+thread number 140456503781120 added to arr
+Got a file: tokenizer.c
+thread number 140456495388416 added to arr
+Got a dir: smt
+
+
+inspecting ./Asst0/readme.pdf
+thread number 140456486995712 added to arr
+
+
+inspecting ./Asst0/tokenizer.c
+Got a dir: dmt
+Handling: ./Asst0/smt
+./Asst0/smt was added at 0
+thread number 140456478603008 added to arr
+Handling: ./Asst0/dmt
+./Asst0/dmt was added at 0
+Joining: 140456512173824
+test ---> case ---> 1: ---> input: ---> "today ---> is ---> a ---> beautiful ---> day" ---> expected ---> output: ---> word: ---> “today” ---> “is” ---> “a” ---> “beautiful” ---> “day” ---> 2: ---> "0x4356abdc ---> 0777 ---> [] ---> " ---> hexadecimal ---> integer: ---> "0x4356abdc" ---> octal ---> "0777" ---> left ---> bracket: ---> "[" ---> right ---> "]" ---> 3: ---> “array[xyz ---> ] ---> += ---> pi ---> 3.14159e-10” ---> "array" ---> "xyz" ---> plus ---> equals: ---> "+=" ---> "pi" ---> float: ---> "3.141519e-10" ---> 4: ---> "numbers ---> 972 ---> 0x972 ---> A8 ---> 0XA8 ---> XA8 ---> 0972 ---> 072" ---> "numbers" ---> decimal ---> "972" ---> "0x972" ---> "A8" ---> "0XA8" ---> "XA8" ---> "0972" ---> "072" ---> 5: ---> "3.1 ---> 03.1 ---> x3.1 ---> 0x3.1 ---> 30x1.x" ---> floating ---> point: ---> "3.1" ---> "03.1" ---> "x3" ---> structure ---> member: ---> "." ---> "1" ---> "0x3" ---> "30" ---> "x1" ---> "x" ---> 6: ---> "+,++,+++,++++,+++++,++=,+++==" ---> addition: ---> "+" ---> comma: ---> "," ---> increment: ---> "++" ---> assignment: ---> "=" ---> 7: ---> "arr12x0. ---> da+-=*.32e- ---> []" ---> "arr" ---> "12" ---> "x0" ---> "da" ---> minus ---> "-=" ---> multiplication: ---> "*" ---> "32" ---> "e" ---> minus: ---> "-" ---> bracker: ---> 8: ---> "hello123 ---> 456world" ---> "hello123" ---> "456" ---> "world" ---> 5 ---> Joining: 140456503781120
+thread number 140456512173824 added to arr
+
+
+inspecting ./Asst0/dmt/smt.txt
+handled: ./Asst0/smt
+thread number 140456470210304 added to arr
+%PDF-1.5 ---> % ---> 2 ---> 0 ---> obj ---> << ---> /Linearized ---> 1 --->
+
+inspecting ./Asst0/dmt/hello.txt
+/L ---> 16460 ---> /H ---> [ ---> 687 ---> 126 ---> ] ---> /O ---> 6 ---> /E ---> 16185 ---> /N ---> /T ---> 16184 ---> >> ---> endobj ---> 3 ---> /Type ---> /XRef ---> /Length ---> 50 ---> /Filter ---> /FlateDecode ---> /DecodeParms ---> /Columns ---> 4 ---> /Predictor ---> 12 ---> /W ---> /Index ---> 15 ---> /Info ---> 11 ---> R ---> /Root ---> /Size ---> 17 ---> /Prev ---> /ID ---> [<fd104b2c60852ceaf2410cc5ad4cb7c7><fd104b2c60852ceaf2410cc5ad4cb7c7>] ---> stream ---> xcbdg`b`8 ---> $XF@D= ---> nFl ---> Joining: 140456495388416
+
+
+inspecting ./Asst0/dmt/world.txt
+thread number 140456461817600 added to arr
+handled: ./Asst0/dmt
+ ---> #include<stdio.h> ---> #include<stdlib.h> ---> #include<string.h> --->  ---> #include<ctype.h> ---> /** ---> * ---> This ---> function ---> is ---> intended ---> to ---> check ---> a ---> given ---> string ---> an ---> operator ---> char ---> *str: ---> the ---> that ---> needs ---> be ---> checked ---> **opList: ---> list ---> of ---> operators ---> returns ---> 0 ---> if ---> operator, ---> -1 ---> otherwise. ---> */ ---> int ---> matchOperator(char ---> *str, ---> **opList) ---> { ---> i ---> = ---> 0; ---> //variable ---> track ---> loop ---> for(i ---> < ---> 42; ---> i++) ---> if(strcmp(opList[i], ---> str) ---> == ---> 0) ---> return ---> } ---> -1; ---> get ---> index ---> in ---> whose ---> found ---> was ---> found, ---> operatorIndex(char ---> i; ---> forms ---> substring ---> *src: ---> original ---> m: ---> strating ---> n: ---> ending ---> susbtring ---> (excluded) ---> formed ---> *getSubstring(const ---> *src, ---> m, ---> n) ---> len ---> n ---> - ---> m; ---> //length ---> destination ---> *dest ---> (char*)malloc(sizeof(char) ---> (len ---> + ---> 1)); ---> for ---> (int ---> && ---> (*(src ---> i) ---> != ---> '\0'); ---> *(src ---> i); ---> dest++; ---> '\0'; ---> dest ---> len; ---> tokenizes ---> passed ---> using ---> as ---> delimeter ---> tokenized ---> *delim: ---> tokenizer ---> this ---> *numElement: ---> number ---> tokens ---> after ---> tokenizing ---> array ---> strings ---> were ---> **tokenizer(char ---> *delim, ---> **opList, ---> *numElem) ---> j ---> operatorSize ---> sizeof(opList)/sizeof(opList[0]); ---> *operatorComparison ---> "("; ---> arrIndex ---> *decimalChar ---> "."; ---> *minusChar ---> "-"; ---> **resultArr ---> (char ---> **) ---> malloc(sizeof(char ---> *) ---> 1000); ---> if(strcmp(delim, ---> operatorComparison) ---> firstIndex ---> decimalCount ---> minusCount ---> strlen(str); ---> *temp ---> getSubstring(str, ---> i, ---> i+1); ---> *temp2 ---> "temp"; ---> match ---> matchOperator(temp, ---> opList); ---> if(match ---> // ---> . ---> or ---> if((strcmp(temp, ---> minusChar) ---> (minusCount ---> 0)) ---> if(i ---> temp2 ---> firstIndex, ---> *emptyStr ---> ""; ---> if(strcmp(temp2, ---> emptyStr) ---> resultArr[arrIndex] ---> temp2; ---> arrIndex++; ---> *numElem ---> 1; ---> temp; ---> else ---> decimalChar) ---> (decimalCount ---> (i ---> (strlen(str) ---> 1))) ---> decimalCount++; ---> if(isdigit(str[i ---> 1])) ---> *e ---> "e"; ---> *comp ---> i-1, ---> if((i ---> Joining: 140456486995712
+Joining: 140456478603008
+Joining: 140456512173824
+Joining: 140456470210304
+Joining: 140456461817600
+Threads: 7
+Directories: 1
+Files: 5
 File name: ./Asst0/testcases.txt
+Next file: ./Asst0/readme.pdf
+File name: ./Asst0/readme.pdf
+Next file: ./Asst0/tokenizer.c
+File name: ./Asst0/tokenizer.c
+Next file: ./Asst0/dmt/smt.txt
+File name: ./Asst0/dmt/smt.txt
+Next file: ./Asst0/dmt/hello.txt
+File name: ./Asst0/dmt/hello.txt
+Next file: ./Asst0/dmt/world.txt
+File name: ./Asst0/dmt/world.txt
