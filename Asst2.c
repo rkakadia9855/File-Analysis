@@ -37,20 +37,21 @@ struct dirnode {
     char* name;
 };
 
+struct filenode* headFile;
+struct filenode* prevFile;
+
 struct filenode files[100]; //stores the nodes of files
 struct dirnode directory[100]; //stores the nodes of directories
 
 void printFileArr() {
 	int i = 0; 
-	for(i = 0; i <= tracker; i++) {
-		if(i != tracker) {
-			printf("File name: %s\n", files[i].name);
-			printf("Next file: %s\n", files[i].nextFile->name);
-		}
-		else {
-			printf("File name: %s\n", files[i].name);
-		}
-	}
+    struct filenode* fileTracker;
+    fileTracker = headFile;
+    while(fileTracker != NULL) {
+        printf("%s ---> ", fileTracker->name);
+        fileTracker = fileTracker->nextFile;
+    }
+    printf("NULL\n");
 }
 
 void *grow(struct filenode smt[100], int* capacityPTR) {
@@ -176,13 +177,28 @@ void* handleDir(void* kmt) {
                 strcpy(tempName, name);
                 strcat(tempName, "/");
                 strcat(tempName, dp->d_name);
-                files[tracker].name = (char *) malloc(sizeof(char *) * totalLen);
+                struct filenode* newNode = (struct filenode*) malloc(sizeof(struct filenode));
+                if(headFile == NULL) {
+                    newNode->name = (char *) malloc(sizeof(char *) * totalLen);
+                    strcpy(newNode->name, tempName);
+                    newNode->index = tracker;
+                    headFile = newNode;
+                    prevFile = newNode;
+                }
+                else {
+                    newNode->name = (char *) malloc(sizeof(char *) * totalLen);
+                    strcpy(newNode->name, tempName);
+                    newNode->index = tracker;
+                    prevFile->nextFile = newNode;
+                    prevFile = newNode;
+                }
+              /*  files[tracker].name = (char *) malloc(sizeof(char *) * totalLen);
                 strcpy(files[tracker].name, tempName);
                 files[tracker].index = tracker;
 		if(tracker != 0)
-			files[tracker - 1].nextFile = &(files[tracker]);
+			files[tracker - 1].nextFile = &(files[tracker]); */
             //   files[tracker].trackerPtr = &tracker;
-                pthread_create(allThreads+threadTracker, NULL, handleFile, &(files[tracker]));
+                pthread_create(allThreads+threadTracker, NULL, handleFile, newNode);
                 printf("thread number %ld added to arr\n", *(allThreads+threadTracker));
                 pthread_mutex_unlock(&lock); 
             }
@@ -242,13 +258,28 @@ int main(int argc, char** argv) {
             strcat(tempName, argv[1]);
             strcat(tempName, "/");
             strcat(tempName, dp->d_name);
-            files[tracker].name = (char *) malloc(sizeof(char *) * totalLen);
-            strcpy(files[tracker].name, tempName);
-            files[tracker].index = tracker;
-	    if(tracker != 0)
-		    files[tracker - 1].nextFile = &(files[tracker]);
+            struct filenode* newNode = (struct filenode*) malloc(sizeof(struct filenode));
+            if(headFile == NULL) {
+                newNode->name = (char *) malloc(sizeof(char *) * totalLen);
+                strcpy(newNode->name, tempName);
+                newNode->index = tracker;
+                headFile = newNode;
+                prevFile = newNode;
+            }
+            else {
+                newNode->name = (char *) malloc(sizeof(char *) * totalLen);
+                strcpy(newNode->name, tempName);
+                newNode->index = tracker;
+                prevFile->nextFile = newNode;
+                prevFile = newNode;
+            }
+     //       files[tracker].name = (char *) malloc(sizeof(char *) * totalLen);
+       //     strcpy(files[tracker].name, tempName);
+        //    files[tracker].index = tracker;
+	   // if(tracker != 0)
+		//    files[tracker - 1].nextFile = &(files[tracker]);
          //   files[tracker].trackerPtr = &tracker;
-            pthread_create(allThreads+threadTracker, NULL, handleFile, &(files[tracker]));
+            pthread_create(allThreads+threadTracker, NULL, handleFile, newNode);
             printf("thread number %ld added to arr\n", *(allThreads+threadTracker));
             pthread_mutex_unlock(&lock);
         }

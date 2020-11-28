@@ -1,0 +1,48 @@
+Got a dir: subdir
+thread number 139788111861504 added to arr
+Got a file: consoleLog1.txt
+Handling: ./Asst1/subdir
+./Asst1/subdir was added at 0
+
+
+inspecting ./Asst1/consoleLog1.txt
+thread number 139788103468800 added to arr
+Got a file: consoleLog3.txt
+thread number 139788095076096 added to arr
+Got a file: consoleLog5.txt
+
+
+inspecting ./Asst1/consoleLog3.txt
+thread number 139788086683392 added to arr
+Joining: 139788111861504
+
+
+inspecting ./Asst1/consoleLog5.txt
+thread number 139788078290688 added to arr
+thread number 139788069897984 added to arr
+handled: ./Asst1/subdir
+
+
+Joining: 139788103468800
+File: ./Asst1/consoleLog3.txt
+|_ Word: Got | Count: 5 | Probability: 0.004812 _| ---> |_ Word: a | Count: 5 | Probability: 0.004812 _| ---> |_ Word: file: | Count: 3 | Probability: 0.002887 _| ---> |_ Word: testcases.txt | Count: 1 | Probability: 0.000962 _| ---> |_ Word: thread | Count: 5 | Probability: 0.004812 _| ---> |_ Word: number | Count: 5 | Probability: 0.004812 _| ---> |_ Word: 140713060378368 | Count: 2 | Probability: 0.001925 _| ---> |_ Word: added | Count: 14 | Probability: 0.013474 _| ---> |_ Word: to | Count: 5 | Probability: 0.004812 _| ---> |_ Word: arr | Count: 5 | Probability: 0.004812 _| ---> |_ Word: readme.pdf | Count: 1 | Probability: 0.000962 _| ---> |_ Word: 140713051985664 | Count: 2 | Probability: 0.001925 _| ---> |_ Word: Handling: | Count: 5 | Probability: 0.004812 _| ---> |_ Word: ./Asst0/testcases.txt | Count: 2 | Probability: 0.001925 _| ---> |_ Word: ./Asst0/readme.pdf | Count: 2 | Probability: 0.001925 _| ---> |_ Word: tokenizer.c | Count: 1 | Probability: 0.000962 _| ---> |_ Word: 140713043592960 | Count: 2 | Probability: 0.001925 _| ---> |_ Word: dir: | Count: 2 | Probability: 0.001925 _| ---> |_ Word: smt | Count: 1 | Probability: 0.000962 _| ---> |_ Word: ./Asst0/tokenizer.c | Count: 2 | Probability: 0.001925 _| ---> |_ Word: 140713035200256 | Count: 2 | Probability: 0.001925 _| ---> |_ Word: dmt | Count: 1 | Probability: 0.000962 _| ---> |_ Word: 140713026807552 | Count: 2 | Probability: 0.001925 _| ---> |_ Word: ./Asst0/dmt | Count: 3 | Probability: 0.002887 _| ---> |_ Word: was | Count: 2 | Probability: 0.001925 _| ---> |_ Word: at | Count: 9 | Probability: 0.008662 _| ---> |_ Word: 4 | Count: 1 | Probability: 0.000962 _| ---> |_ Word: ./Asst0/smt | Count: 3 | Probability: 0.002887 _| ---> |_ Word: Joining: | Count: 11 | Probability: 0.010587 _| ---> |_ Word: . | Count: 2 | Probability: 0.001925 _| ---> |_ Word: will | Count: 7 | Probability: 0.006737 _| ---> |_ Word: be | Count: 7 | Probability: 0.006737 _| ---> |_ Word: 5 | Count: 1 | Probability: 0.000962 _| ---> |_ Word: .. | Count: 2 | Probability: 0.001925 _| ---> |_ Word: 6 | Count: 1 | Probability: 0.000962 _| ---> |_ Word: smt.txt | Count: 1 | Probability: 0.000962 _| ---> |_ Word: 7 | Count: 1 | Probability: 0.000962 _| ---> |_ Word: hello.txt | Count: 1 | Probability: 0.000962 _| ---> |_ Word: 8 | Count: 1 | Probability: 0.000962 _| ---> |_ Word: world.txt | Count: 1 | Probability: 0.000962 _| ---> |_ Word: 9 | Count: 1 | Probability: 0.000962 _| ---> |_ Word: handled: | Count: 5 | Probability: 0.004812 _| ---> |_ Word: 3 | Count: 1 | Probability: 0.000962 _| ---> |_ Word: 10 | Count: 1 | Probability: 0.000962 _| ---> |_ Word: 11 | Count: 1 | Probability: 0.000962 _| ---> |_ Word: 0 | Count: 6 | Probability: 0.005775 _| ---> NULL
+
+
+inspecting ./Asst1/subdir/consoleLog2.txt
+File: ./Asst1/consoleLog1.txt
+|_ Word: Got | Count: 5 | Probability: 0.007452 _| ---> |_ Word: a | Count: 5 | Probability: 0.007452 _| ---> |_ Word: file: | Count: 3 | Probability: 0.004471 _| ---> |_ Word: testcases.txt | Count: 1 | Probability: 0.001490 _| ---> |_ Word: thread | Count: 5 | Probability: 0.007452 _| ---> |_ Word: number | Count: 5 | Probability: 0.007452 _| ---> |_ Word: 140106405529344 | Count: 2 | Probability: 0.002981 _| ---> |_ Word: added | Count: 5 | Probability: 0.007452 _| ---> |_ Word: to | Count: 5 | Probability: 0.007452 _| ---> |_ Word: arr | Count: 5 | Probability: 0.007452 _| ---> |_ Word: readme.pdf | Count: 1 | Probability: 0.001490 _| ---> |_ Word: 140106397136640 | Count: 2 | Probability: 0.002981 _| ---> |_ Word: tokenizer.c | Count: 1 | Probability: 0.001490 _| ---> |_ Word: Handling: | Count: 5 | Probability: 0.007452 _| ---> |_ Word: ./readme.pdf | Count: 2 | Probability: 0.002981 _| ---> |_ Word: 140106388743936 | Count: 2 | Probability: 0.002981 _| ---> |_ Word: dir: | Count: 2 | Probability: 0.002981 _| ---> |_ Word: smt | Count: 1 | Probability: 0.001490 _| ---> |_ Word: ./testcases.txt | Count: 2 | Probability: 0.002981 _| ---> |_ Word: 140106380351232 | Count: 2 | Probability: 0.002981 _| ---> |_ Word: dmt | Count: 1 | Probability: 0.001490 _| ---> |_ Word: ./tokenizer.c | Count: 2 | Probability: 0.002981 _| ---> inspecting ./Asst1/subdir/consoleLog4.txt
+|_ Word: 140106371958528 | Count: 2 | Probability: 0.002981 _| ---> |_ Word: ./smt | Count: 2 | Probability: 0.002981 _| ---> |_ Word: Joining: | Count: 5 | Probability: 0.007452 _| ---> |_ Word: ./dmt | Count: 2 | Probability: 0.002981 _| ---> |_ Word: handled: | Count: 5 | Probability: 0.007452 _| ---> NULL
+Joining: 139788095076096
+Joining: 139788086683392
+File: ./Asst1/consoleLog5.txt
+|_ Word: Got | Count: 5 | Probability: 0.004036 _| ---> |_ Word: a | Count: 5 | Probability: 0.004036 _| ---> |_ Word: file: | Count: 3 | Probability: 0.002421 _| ---> |_ Word: testcases.txt | Count: 1 | Probability: 0.000807 _| ---> |_ Word: thread | Count: 7 | Probability: 0.005650 _| ---> |_ Word: number | Count: 7 | Probability: 0.005650 _| ---> |_ Word: 140006452365056 | Count: 2 | Probability: 0.001614 _| ---> |_ Word: added | Count: 9 | Probability: 0.007264 _| ---> |_ Word: to | Count: 7 | Probability: 0.005650 _| ---> |_ Word: arr | Count: 7 | Probability: 0.005650 _| ---> |_ Word: readme.pdf | Count: 1 | Probability: 0.000807 _| ---> |_ Word: Handling: | Count: 6 | Probability: 0.004843 _| ---> |_ Word: ./Asst0/testcases.txt | Count: 1 | Probability: 0.000807 _| ---> |_ Word: 140006443972352 | Count: 1 | Probability: 0.000807 _| ---> |_ Word: tokenizer.c | Count: 1 | Probability: 0.000807 _| ---> |_ Word: ./Asst0/readme.pdf | Count: 1 | Probability: 0.000807 _| ---> |_ Word: 140006435579648 | Count: 1 | Probability: 0.000807 _| ---> |_ Word: dir: | Count: 2 | Probability: 0.001614 _| ---> |_ Word: smt | Count: 1 | Probability: 0.000807 _| ---> |_ Word: ./Asst0/tokenizer.c | Count: 1 | Probability: 0.000807 _| ---> |_ Word: 140006427186944 | Count: 1 | Probability: 0.000807 _| ---> |_ Word: dmt | Count: 1 | Probability: 0.000807 _| ---> |_ Word: ./Asst0/smt | Count: 3 | Probability: 0.002421 _| ---> |_ Word: was | Count: 2 | Probability: 0.001614 _| ---> |_ Word: at | Count: 2 | Probability: 0.001614 _| ---> |_ Word: 0 | Count: 2 | Probability: 0.001614 _| ---> |_ Word: 140006418794240 | Count: 1 | Probability: 0.000807 _| ---> |_ Word: Joining: | Count: 1 | Probability: 0.000807 _| ---> |_ Word: ./Asst0/dmt | Count: 2 | Probability: 0.001614 _| ---> |_ Word: handled: | Count: 1 | Probability: 0.000807 _| ---> |_ Word: 140006337279744 | Count: 1 | Probability: 0.000807 _| ---> |_ Word: 140006328887040 | Count: 1 | Probability: 0.000807 _| ---> NULL
+Joining: 139788078290688
+File: ./Asst1/subdir/consoleLog4.txt
+|_ Word: Got | Count: 2 | Probability: 0.001684 _| ---> |_ Word: a | Count: 3 | Probability: 0.002525 _| ---> |_ Word: file: | Count: 2 | Probability: 0.001684 _| ---> |_ Word: testcases.txt | Count: 1 | Probability: 0.000842 _| ---> |_ Word: thread | Count: 1 | Probability: 0.000842 _| ---> |_ Word: number | Count: 1 | Probability: 0.000842 _| ---> |_ Word: 140277395547904 | Count: 1 | Probability: 0.000842 _| ---> |_ Word: added | Count: 1 | Probability: 0.000842 _| ---> |_ Word: to | Count: 1 | Probability: 0.000842 _| ---> |_ Word: arr | Count: 1 | Probability: 0.000842 _| ---> |_ Word: readme.pdf | Count: 1 | Probability: 0.000842 _| ---> |_ Word: Handling: | Count: 1 | Probability: 0.000842 _| ---> |_ Word: ./Asst0/testcases.txt | Count: 1 | Probability: 0.000842 _| ---> NULL
+Joining: 139788069897984
+File: ./Asst1/subdir/consoleLog2.txt
+|_ Word: Got | Count: 1 | Probability: 0.001490 _| ---> |_ Word: a | Count: 1 | Probability: 0.001490 _| ---> NULL
+Threads: 5
+Directories: 0
+Files: 4
+./Asst1/consoleLog1.txt ----> ./Asst1/consoleLog3.txt ----> ./Asst1/consoleLog5.txt ----> ./Asst1/subdir/consoleLog4.txt ----> ./Asst1/subdir/consoleLog2.txt ----> NULL
