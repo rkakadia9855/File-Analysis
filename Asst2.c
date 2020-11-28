@@ -93,7 +93,7 @@ void* handleFile(void* kmt) {
             struct wordnode headNode;
             headNode.name = token;
             headNode.totalCount = 1;
-            headNode.probability = 1/filesize;
+            headNode.probability = (double) 1/(double) filesize;
             headNode.nextWord = NULL;
 
             funcArgs->headWord = (struct wordnode*) malloc(sizeof(struct wordnode));
@@ -110,14 +110,14 @@ void* handleFile(void* kmt) {
         struct wordnode* tempNode = (struct wordnode*) malloc(sizeof(struct wordnode)); 
         tempNode->name = token;
         tempNode->totalCount = 1;
-        tempNode->probability = 1/filesize;
+        tempNode->probability = (double) 1/(double) filesize;
         tempNode->nextWord = NULL;
 
         while(track->nextWord != NULL) {
 
             if(strcmp(track->name, token) == 0) {
                 track->totalCount = track->totalCount + 1;
-                track->probability = track->totalCount/filesize;
+                track->probability = (double) track->totalCount/(double) filesize;
                 found = 1;
                 break;
             }
@@ -126,7 +126,7 @@ void* handleFile(void* kmt) {
             if(track->nextWord == NULL) {
                 if(strcmp(track->name, token) == 0) {
                     track->totalCount = track->totalCount + 1;
-                    track->probability = track->totalCount/filesize;
+                    track->probability = (double) track->totalCount/(double) filesize;
                     found = 1;
                    // break;
                 }
@@ -183,7 +183,6 @@ void* handleDir(void* kmt) {
 			files[tracker - 1].nextFile = &(files[tracker]);
             //   files[tracker].trackerPtr = &tracker;
                 pthread_create(allThreads+threadTracker, NULL, handleFile, &(files[tracker]));
-                pthread_join(allThreads[threadTracker], NULL);
                 printf("thread number %ld added to arr\n", *(allThreads+threadTracker));
                 pthread_mutex_unlock(&lock); 
             }
@@ -200,7 +199,6 @@ void* handleDir(void* kmt) {
                 directory[dirTracker].name = (char *) malloc(sizeof(char *) * totalLen);
                 strcpy(directory[dirTracker].name, tempName);
                 pthread_create(allThreads+threadTracker, NULL, handleDir, &(directory[dirTracker]));
-                pthread_join(allThreads[threadTracker], NULL);
                
                 printf("thread number %ld added to arr\n", *(allThreads+threadTracker));
                 pthread_mutex_unlock(&lock); 
@@ -241,12 +239,8 @@ int main(int argc, char** argv) {
             char* tempName = (char *) malloc(sizeof(char *) * totalLen);
             tempName[0] = '.';
             tempName[1] = '/';
-            tempName[2] = 'A';
-            tempName[3] = 's';
-            tempName[4] = 's';
-            tempName[5] = 't';
-            tempName[6] = '0';
-            tempName[7] = '/';
+            strcat(tempName, argv[1]);
+            strcat(tempName, "/");
             strcat(tempName, dp->d_name);
             files[tracker].name = (char *) malloc(sizeof(char *) * totalLen);
             strcpy(files[tracker].name, tempName);
@@ -255,7 +249,6 @@ int main(int argc, char** argv) {
 		    files[tracker - 1].nextFile = &(files[tracker]);
          //   files[tracker].trackerPtr = &tracker;
             pthread_create(allThreads+threadTracker, NULL, handleFile, &(files[tracker]));
-            pthread_join(allThreads[threadTracker], NULL);
             printf("thread number %ld added to arr\n", *(allThreads+threadTracker));
             pthread_mutex_unlock(&lock);
         }
@@ -270,26 +263,21 @@ int main(int argc, char** argv) {
             char* tempName = (char *) malloc(sizeof(char *) * totalLen);
             tempName[0] = '.';
 		    tempName[1] = '/';
-            tempName[2] = 'A';
-            tempName[3] = 's';
-            tempName[4] = 's';
-            tempName[5] = 't';
-            tempName[6] = '0';
-            tempName[7] = '/';
+            strcat(tempName, argv[1]);
+            strcat(tempName, "/");
 		    strcat(tempName, dp->d_name);
             directory[dirTracker].name = (char *) malloc(sizeof(char *) * totalLen);
             strcpy(directory[dirTracker].name, tempName);
             pthread_create(allThreads+threadTracker, NULL, handleDir, &(directory[dirTracker]));
-            pthread_join(allThreads[threadTracker], NULL);
             printf("thread number %ld added to arr\n", *(allThreads+threadTracker));
             pthread_mutex_unlock(&lock);
         }
     }
     int i = 0;
- /*   for (i = 0; i <= threadTracker; ++i) {
+    for (i = 0; i <= threadTracker; ++i) {
         printf("Joining: %ld\n", allThreads[i]);
         pthread_join(allThreads[i], NULL);
-    } */
+    } 
 
     printf("Threads: %d\n", threadTracker);
     printf("Directories: %d\n", dirTracker);
