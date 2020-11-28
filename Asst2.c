@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <pthread.h>
+#include <errno.h>
 
 #define BUFSIZE 256
 
@@ -82,11 +83,22 @@ void* handleFile(void* kmt) {
     filesize = (int) st.st_size;
 
     char* buffer = (char *) malloc(sizeof(char) * filesize);
+    char* buffercopy = (char *) malloc(sizeof(char) * filesize);
     bytes = read(fd, buffer, filesize);
     if(bytes < 0)
         printf("error\n");
+    
+    buffercopy = strcpy(buffercopy, buffer);
         
-    char* token = strtok(buffer, " \n\t\v\f\r");
+    char* token = strtok(buffercopy, " \n\t\v\f\r");
+    int totalwords = 0;
+    while(token != NULL)  {
+        totalwords++;
+        token = strtok(NULL, " \n\t\r\v\f"); 
+    }
+    
+    token = strtok(buffer, " \n\t\v\f\r");
+    printf("total words in token: %d\n", totalwords);
 
     while(token != NULL) {
         
@@ -94,7 +106,7 @@ void* handleFile(void* kmt) {
             struct wordnode headNode;
             headNode.name = token;
             headNode.totalCount = 1;
-            headNode.probability = (double) 1/(double) filesize;
+            headNode.probability = (double) 1/(double) totalwords;
             headNode.nextWord = NULL;
 
             funcArgs->headWord = (struct wordnode*) malloc(sizeof(struct wordnode));
@@ -111,14 +123,14 @@ void* handleFile(void* kmt) {
         struct wordnode* tempNode = (struct wordnode*) malloc(sizeof(struct wordnode)); 
         tempNode->name = token;
         tempNode->totalCount = 1;
-        tempNode->probability = (double) 1/(double) filesize;
+        tempNode->probability = (double) 1/(double) totalwords;
         tempNode->nextWord = NULL;
 
         while(track->nextWord != NULL) {
 
             if(strcmp(track->name, token) == 0) {
                 track->totalCount = track->totalCount + 1;
-                track->probability = (double) track->totalCount/(double) filesize;
+                track->probability = (double) track->totalCount/(double) totalwords;
                 found = 1;
                 break;
             }
@@ -127,7 +139,7 @@ void* handleFile(void* kmt) {
             if(track->nextWord == NULL) {
                 if(strcmp(track->name, token) == 0) {
                     track->totalCount = track->totalCount + 1;
-                    track->probability = (double) track->totalCount/(double) filesize;
+                    track->probability = (double) track->totalCount/(double) totalwords;
                     found = 1;
                    // break;
                 }
