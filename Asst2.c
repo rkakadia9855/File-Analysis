@@ -9,6 +9,7 @@
 #include <sys/types.h>
 #include <pthread.h>
 #include <errno.h>
+#include <math.h>
 
 #define BUFSIZE 256
 
@@ -29,6 +30,7 @@ struct filenode{
     char* name;
     struct filenode *nextFile; 
     struct wordnode *headWord;
+    int wordcount;
   //  pthread_t thread;
     int index;
  //   int* trackerPtr;
@@ -44,6 +46,53 @@ struct filenode* prevFile;
 struct filenode files[100]; //stores the nodes of files
 struct dirnode directory[100]; //stores the nodes of directories
 
+/* function to swap data of two nodes a and b*/
+void swap(struct filenode *a, struct filenode *b) 
+{ 
+
+    char* tempname = a->name;
+    struct wordnode *tempheadWord = a->headWord;
+    int tempwordcount = a->wordcount;
+
+    a->name = b->name;
+    a->headWord = b->headWord;
+    a->wordcount = b->wordcount;
+
+    b->name = tempname;
+    b->headWord = tempheadWord;
+    b->wordcount = tempwordcount;
+    
+} 
+
+void sortWordsInFile() {
+    int swapped, i; 
+    struct filenode *ptr1; 
+    struct filenode *lptr = NULL; 
+    struct filenode *start = headFile;
+  
+    /* Checking for empty list */
+    if (start == NULL) 
+        return; 
+  
+    do
+    { 
+        swapped = 0; 
+        ptr1 = start; 
+  
+        while (ptr1->nextFile != lptr) 
+        { 
+            if(ptr1->wordcount > ptr1->nextFile->wordcount)
+            {  
+                swap(ptr1, ptr1->nextFile); 
+                swapped = 1; 
+            } 
+            ptr1 = ptr1->nextFile; 
+        } 
+        lptr = ptr1; 
+    } 
+    while (swapped); 
+}
+
 void printFileArr() {
 	int i = 0; 
     struct filenode* fileTracker;
@@ -51,8 +100,204 @@ void printFileArr() {
     while(fileTracker != NULL) {
         printf("%s ---> ", fileTracker->name);
         fileTracker = fileTracker->nextFile;
+        if(fileTracker == NULL)
+            break;
     }
     printf("NULL\n");
+}
+
+/*void findMeanDistribution() {
+    struct filenode* fileTracker;
+    struct wordnode* meanTracker;
+    struct wordnode* wordTracker;
+    fileTracker = headFile;
+    while(fileTracker != NULL) {
+
+       // for each file, compare every word in the file with every word in the mean distribution
+
+       wordTracker = fileTracker->headWord;
+       while(wordTracker != NULL) {
+
+           if(meanhead == NULL) {
+               meanhead = (struct wordnode*) malloc(sizeof(struct wordnode));
+               strcpy(meanhead->name, wordTracker->name);
+               meanhead->probability = wordTracker->probability;
+               meanTracker->nextWord = NULL;
+               meanTracker = meanhead;
+           }
+           else {
+               while(meanTracker != NULL) {
+
+                   if(strcmp(meanTracker->name, wordTracker->name) == 0) {
+                       meanTracker->probability = meanTracker->probability + wordTracker->probability;
+                       meanTracker->probability = meanTracker->probability/2;
+                   }
+
+                   meanTracker = meanTracker->nextWord;
+               }
+           }
+
+           wordTracker = wordTracker->nextWord;
+           if(wordTracker == NULL)
+                break;
+       }
+
+        fileTracker = fileTracker->nextFile;
+        if(fileTracker == NULL)
+            break;
+    }
+} */
+
+void outputJensenShannon() {
+
+    // for each file, compare it with every file after it
+    struct filenode* fileTracker = headFile;
+    while(fileTracker != NULL) { // loop for each file
+//	    printf("entered first loop\n");
+  	printf("First file: %s\n", fileTracker->name);
+	struct filenode* compareFile = fileTracker;
+        struct filenode* secondaryFileTracker = compareFile->nextFile;
+//	printf("secondary file assigned is first loop\n");
+        //comparing the file with every other file that comes after it in linked list
+        while(secondaryFileTracker != NULL) { // loop to compare with files after it
+//		printf("entered second loop\n");
+        
+            // fill the linked list of mean distribution with first file
+		printf("Second file: %s\n", secondaryFileTracker->name);
+    	    struct wordnode* meanhead = (struct wordnode* ) malloc(sizeof(struct wordnode));
+            struct wordnode* meanTracker = meanhead;
+            struct wordnode* compareTracker = fileTracker->headWord;
+            while(compareTracker != NULL) {
+//		    printf(
+		    printf("entered third loop\n");
+		    meanTracker->name = (char *) malloc(sizeof(char*) * (int) strlen(compareTracker->name));
+                strcpy(meanTracker->name, compareTracker->name);
+		printf("Word added to mean distribution list: %s\n", meanTracker->name);
+		printf("copied name in third loop\n");
+                meanTracker->probability = compareTracker->probability;
+                if(compareTracker->nextWord == NULL) {
+//			printf
+                    meanTracker->nextWord = NULL;
+                    break;
+                }
+                meanTracker->nextWord = (struct wordnode* ) malloc(sizeof(struct wordnode));
+		printf("next assigned in third loop\n");
+                meanTracker = meanTracker->nextWord;
+                compareTracker = compareTracker->nextWord;
+		printf("loop next roung in third loop\n");
+            }
+
+            //Time to compare the two files now and update mean distribution linked list
+            compareTracker = secondaryFileTracker->headWord;
+            meanTracker = meanhead;
+            // compare each word in the second file
+            
+            while(compareTracker != NULL) {
+		printf("entered third loop (b) \n");
+                // with each word in the first file
+                while(meanTracker != NULL) {
+			printf("entered fourth loop\n");
+//			printf("mean tracker null? %d\n", meanTracker
+//			if(meanTracker->name != NULL) 
+//			printf("Comparing %s and %s\n", meanTracker->name, compareTracker->name);
+    			if(meanTracker->name != NULL && strcmp(meanTracker->name, compareTracker->name) == 0) {
+//			    printf("same name\n");
+			    printf("%s and %s are same\n", meanTracker->name, compareTracker->name);
+                        meanTracker->probability = meanTracker->probability + compareTracker->probability;
+                        meanTracker->probability = meanTracker->probability/2;
+                        meanTracker = meanhead;
+                        break;
+                    }
+                    else if(meanTracker->nextWord == NULL) {
+//			    printf("adding at end\n");
+                        meanTracker->nextWord = (struct wordnode* ) malloc(sizeof(struct wordnode));
+			meanTracker->nextWord->name = (char *) malloc(sizeof(char *) * (int) strlen(compareTracker->name));
+                        strcpy(meanTracker->nextWord->name, compareTracker->name);
+                        meanTracker->probability = compareTracker->probability/2;
+			printf("%s was added at the end\n", meanTracker->nextWord->name);
+                        meanTracker->nextWord->nextWord = NULL;
+//			printf("all right\n");
+                        meanTracker = meanhead;
+                        break;
+                    }
+                    meanTracker = meanTracker->nextWord;
+
+                }
+                compareTracker = compareTracker->nextWord;
+            }
+
+            //find kld for first file
+            compareTracker = fileTracker->headWord;
+            double kld1 = 0.0;
+            meanTracker = meanhead;
+            while(compareTracker != NULL) {
+//		printf("calculating kld1\n");
+                while(meanTracker != NULL) {
+
+                    if(strcmp(compareTracker->name, meanTracker->name) == 0) {
+                        kld1 += ((compareTracker->probability) * log(compareTracker->probability/meanTracker->probability));
+                        break;
+                    }
+
+                    meanTracker = meanTracker->nextWord;
+                }
+
+                compareTracker = compareTracker->nextWord;
+            }
+
+            //find kld for second file
+            compareTracker = secondaryFileTracker->headWord;
+            double kld2 = 0.0;
+            meanTracker = meanhead;
+            while(compareTracker != NULL) {
+                while(meanTracker != NULL) {
+                    if(strcmp(compareTracker->name, meanTracker->name) == 0) {
+                        kld1 += ((compareTracker->probability) * log(compareTracker->probability/meanTracker->probability));
+                        break;
+                    }
+                    meanTracker = meanTracker->nextWord;
+                }
+                compareTracker = compareTracker->nextWord;
+            }
+
+            //find jensen shennon and output
+            double jsd = (kld1 + kld2)/2;
+
+            if(jsd <= 0.1) {
+                printf("\033[0;31m");
+                printf("%f \"%s\" and \"%s\"\n", jsd, fileTracker->name, secondaryFileTracker->name);
+            }
+            else if(jsd > 0.1 && jsd <= 0.15) {
+                printf("\033[0;33m");
+                printf("%f \"%s\" and \"%s\"\n", jsd, fileTracker->name, secondaryFileTracker->name);
+            }
+            else if(jsd > 0.15 && jsd <= 0.2) {
+                printf("\033[0;32m");
+                printf("%f \"%s\" and \"%s\"\n", jsd, fileTracker->name, secondaryFileTracker->name);
+            }
+            else if(jsd > 0.2 && jsd <= 0.25) {
+                printf("\033[0;36m");
+                printf("%f \"%s\" and \"%s\"\n", jsd, fileTracker->name, secondaryFileTracker->name);
+            }
+            else if(jsd > 0.25 && jsd <= 0.3) {
+                printf("\033[0;34m");
+                printf("%f \"%s\" and \"%s\"\n", jsd, fileTracker->name, secondaryFileTracker->name);
+            }
+            else {
+                printf("\033[0m");
+                printf("%f \"%s\" and \"%s\"\n", jsd, fileTracker->name, secondaryFileTracker->name);
+            }
+
+            secondaryFileTracker = secondaryFileTracker->nextFile;
+            if(secondaryFileTracker == NULL) 
+                break;
+        }        
+
+        fileTracker = fileTracker->nextFile;
+        if(fileTracker == NULL)
+            break;
+    }
+
 }
 
 void *grow(struct filenode smt[100], int* capacityPTR) {
@@ -96,6 +341,8 @@ void* handleFile(void* kmt) {
         totalwords++;
         token = strtok(NULL, " \n\t\r\v\f"); 
     }
+
+    funcArgs->wordcount = totalwords;
     
     token = strtok(buffer, " \n\t\v\f\r");
     printf("total words in token: %d\n", totalwords);
@@ -336,7 +583,13 @@ int main(int argc, char** argv) {
     printf("Directories: %d\n", dirTracker);
     printf("Files: %d\n", tracker);
     
-    printFileArr();
+    //printFileArr();
+    printf("Sorting files\n");
+    sortWordsInFile();
+    printf("Outputing jsd\n");
+  	printFileArr();
+
+    outputJensenShannon();
     closedir(dirp);
     
     return EXIT_SUCCESS;
