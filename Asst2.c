@@ -104,6 +104,21 @@ void printFileArr() {
             break;
     }
     printf("NULL\n");
+    fileTracker = headFile;
+    while(fileTracker != NULL) {
+        printf("Words in %s: \n", fileTracker->name);
+        struct wordnode *storetemphead = fileTracker->headWord;
+        while(storetemphead != NULL) {
+            printf("%s ---> ", storetemphead->name);
+            storetemphead = storetemphead->nextWord;
+            if(storetemphead == NULL)
+                break;
+        }
+        printf("NULL\n");
+        fileTracker = fileTracker->nextFile;
+        if(fileTracker == NULL)
+            break;
+    }
 }
 
 /*void findMeanDistribution() {
@@ -169,11 +184,11 @@ void outputJensenShannon() {
             struct wordnode* compareTracker = fileTracker->headWord;
             while(compareTracker != NULL) {
 //		    printf(
-		    printf("entered third loop\n");
+		//    printf("entered third loop\n");
 		    meanTracker->name = (char *) malloc(sizeof(char*) * (int) strlen(compareTracker->name));
                 strcpy(meanTracker->name, compareTracker->name);
 		printf("Word added to mean distribution list: %s\n", meanTracker->name);
-		printf("copied name in third loop\n");
+	//	printf("copied name in third loop\n");
                 meanTracker->probability = compareTracker->probability;
                 if(compareTracker->nextWord == NULL) {
 //			printf
@@ -181,10 +196,10 @@ void outputJensenShannon() {
                     break;
                 }
                 meanTracker->nextWord = (struct wordnode* ) malloc(sizeof(struct wordnode));
-		printf("next assigned in third loop\n");
+	//	printf("next assigned in third loop\n");
                 meanTracker = meanTracker->nextWord;
                 compareTracker = compareTracker->nextWord;
-		printf("loop next roung in third loop\n");
+	//	printf("loop next roung in third loop\n");
             }
 
             //Time to compare the two files now and update mean distribution linked list
@@ -193,16 +208,16 @@ void outputJensenShannon() {
             // compare each word in the second file
             
             while(compareTracker != NULL) {
-		printf("entered third loop (b) \n");
+	//	printf("entered third loop (b) \n");
                 // with each word in the first file
                 while(meanTracker != NULL) {
-			printf("entered fourth loop\n");
+	//		printf("entered fourth loop\n");
 //			printf("mean tracker null? %d\n", meanTracker
 //			if(meanTracker->name != NULL) 
 //			printf("Comparing %s and %s\n", meanTracker->name, compareTracker->name);
     			if(meanTracker->name != NULL && strcmp(meanTracker->name, compareTracker->name) == 0) {
 //			    printf("same name\n");
-			    printf("%s and %s are same\n", meanTracker->name, compareTracker->name);
+		//	    printf("%s and %s are same\n", meanTracker->name, compareTracker->name);
                         meanTracker->probability = meanTracker->probability + compareTracker->probability;
                         meanTracker->probability = meanTracker->probability/2;
                         meanTracker = meanhead;
@@ -214,7 +229,7 @@ void outputJensenShannon() {
 			meanTracker->nextWord->name = (char *) malloc(sizeof(char *) * (int) strlen(compareTracker->name));
                         strcpy(meanTracker->nextWord->name, compareTracker->name);
                         meanTracker->probability = compareTracker->probability/2;
-			printf("%s was added at the end\n", meanTracker->nextWord->name);
+		//	printf("%s was added at the end\n", meanTracker->nextWord->name);
                         meanTracker->nextWord->nextWord = NULL;
 //			printf("all right\n");
                         meanTracker = meanhead;
@@ -307,6 +322,7 @@ void *grow(struct filenode smt[100], int* capacityPTR) {
 } 
 
 void* handleFile(void* kmt) {
+    pthread_mutex_lock(&lock);
     int numLoop = 0;
     struct filenode * funcArgs = (struct filenode *) kmt;
     char* name = funcArgs->name;
@@ -350,14 +366,12 @@ void* handleFile(void* kmt) {
     while(token != NULL) {
         
         if(funcArgs->headWord == NULL) {
-            struct wordnode headNode;
-            headNode.name = token;
-            headNode.totalCount = 1;
-            headNode.probability = (double) 1/(double) totalwords;
-            headNode.nextWord = NULL;
-
-            funcArgs->headWord = (struct wordnode*) malloc(sizeof(struct wordnode));
-            funcArgs->headWord = &headNode;
+            struct wordnode* storetemp = (struct wordnode* ) malloc(sizeof(struct wordnode));
+            storetemp->name = token;
+            storetemp->totalCount = 1;
+            storetemp->probability = (double) 1/(double) totalwords;
+            storetemp->nextWord = NULL;
+            funcArgs->headWord = storetemp;
             token = strtok(NULL, " \n\t\r\v\f"); 
             continue;
         }
@@ -410,8 +424,10 @@ void* handleFile(void* kmt) {
 		track = track->nextWord;
 	}
     printf("NULL\n");
+    
 
     close(fd);
+    pthread_mutex_unlock(&lock);
     
 }
 
